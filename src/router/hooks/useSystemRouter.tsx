@@ -1,6 +1,7 @@
+import { UserPlus } from "lucide-react";
 import { FC } from "react";
 
-type RouteItem = {
+export type RouteItem = {
 	label: string;
 	Icon: FC<React.SVGProps<SVGSVGElement>>;
 	path: string;
@@ -10,7 +11,14 @@ type RouteItem = {
 };
 
 const useSystemRouter = () => {
-	const authenticatedPaths: RouteItem[] = [];
+	const authenticatedPaths: RouteItem[] = [
+		{
+			label: "Candidates",
+			Icon: () => <UserPlus size={18} />,
+			path: "candidates",
+			screen: <div>Candidates</div>,
+		},
+	];
 
 	const getRoutes = (): RouteItem[] => {
 		const routes = authenticatedPaths?.filter((item) => !item.isHidden);
@@ -21,7 +29,7 @@ const useSystemRouter = () => {
 		return actualRoutes;
 	};
 
-	const getHeaderItems = () => {
+	const getNavigationItems = () => {
 		const routes = authenticatedPaths?.filter((item) => !item.isHidden);
 		const actualRoutes = [...routes]
 			.filter(Boolean)
@@ -30,7 +38,7 @@ const useSystemRouter = () => {
 		return actualRoutes;
 	};
 
-	return { getRoutes, getHeaderItems };
+	return { getRoutes, getNavigationItems };
 };
 
 export default useSystemRouter;

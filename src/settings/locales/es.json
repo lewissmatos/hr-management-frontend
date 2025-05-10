@@ -1,6 +1,26 @@
 {
 	"APP_NAME": "Gestión de Recursos Humanos",
 	"DEVELOPED_BY": "Desarrollado por Lewis Matos",
+	"common": {
+		"yes": "Sí",
+		"no": "No",
+		"ok": "Aceptar",
+		"cancel": "Cancelar",
+		"close": "Cerrar",
+		"save": "Guardar",
+		"delete": "Eliminar",
+		"edit": "Editar",
+		"add": "Agregar",
+		"search": "Buscar",
+		"filter": "Filtrar",
+		"clear": "Limpiar",
+		"select": "Seleccionar",
+		"selectAll": "Seleccionar todo",
+		"deselectAll": "Deseleccionar todo"
+	},
+	"logout": {
+		"button": "Cerrar sesión"
+	},
 	"loginScreen": {
 		"title": "Iniciar sesión",
 		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",

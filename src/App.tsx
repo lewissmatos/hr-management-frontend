@@ -3,10 +3,12 @@ import { BrowserRouter } from "react-router-dom";
 import { HeroUIProvider } from "@heroui/react";
 import AuthenticatedRoutes from "./router/AuthenticatedRoutes";
 import UnauthenticatedRoutes from "./router/UnauthenticatedRoutes";
+import useAuthStore from "./features/store/auth-store";
 
 function App() {
-	const theme = "dark"; // This should be replaced with a state or context that manages the theme
-	const isAuthenticated = false; // This should be replaced with a state or context that manages the authentication status
+	const theme = "dark";
+	const { isAuthenticated } = useAuthStore((state) => state);
+
 	return (
 		<BrowserRouter>
 			<HeroUIProvider>

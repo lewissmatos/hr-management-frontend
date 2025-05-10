@@ -5,6 +5,8 @@ import App from "./App.tsx";
 import { Toaster } from "react-hot-toast";
 import { initLsm } from "react-lsm";
 import esTranslations from "./settings/locales/es.json";
+import { QueryClientProvider } from "@tanstack/react-query";
+import getQueryClient from "./features/service-hooks/tanstackQueryClient.ts";
 
 const LSMProvider = initLsm("es", {
 	es: esTranslations,
@@ -12,8 +14,10 @@ const LSMProvider = initLsm("es", {
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<LSMProvider>
-			<App />
-			<Toaster />
+			<QueryClientProvider client={getQueryClient()}>
+				<App />
+				<Toaster position="top-right" />
+			</QueryClientProvider>
 		</LSMProvider>
 	</StrictMode>
 );
