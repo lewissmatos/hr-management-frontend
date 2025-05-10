@@ -1,0 +1,14 @@
+{
+	"APP_NAME": "Gestión de Recursos Humanos",
+	"DEVELOPED_BY": "Desarrollado por Lewis Matos",
+	"loginScreen": {
+		"title": "Iniciar sesión",
+		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",
+
+		"subtitle": "Inicie sesión para continuar",
+		"username": "Nombre de usuario",
+		"password": "Contraseña",
+		"loginButton": "Iniciar sesión",
+		"Pantalla equivocada?": "Ir a 'Puestos de trabajo'"
+	}
+}

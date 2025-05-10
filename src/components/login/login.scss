@@ -1,0 +1,30 @@
+.login-container {
+	@apply min-h-screen;
+	@apply px-[2rem];
+	@apply py-[1rem];
+
+	position: relative;
+	background: rgb(26, 15, 39);
+	background: -moz-linear-gradient(
+		301deg,
+		rgba(26, 15, 39, 1) 41%,
+		rgba(16, 10, 34, 1) 64%,
+		rgba(8, 7, 9, 1) 74%,
+		rgba(11, 10, 32, 1) 91%
+	);
+	background: -webkit-linear-gradient(
+		301deg,
+		rgba(26, 15, 39, 1) 41%,
+		rgba(16, 10, 34, 1) 64%,
+		rgba(8, 7, 9, 1) 74%,
+		rgba(11, 10, 32, 1) 91%
+	);
+	background: linear-gradient(
+		301deg,
+		rgba(26, 15, 39, 1) 41%,
+		rgba(16, 10, 34, 1) 64%,
+		rgba(8, 7, 9, 1) 74%,
+		rgba(11, 10, 32, 1) 91%
+	);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1a0f27",endColorstr="#0b0a20",GradientType=1);
+}
