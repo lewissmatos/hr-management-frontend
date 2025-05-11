@@ -33,6 +33,7 @@ module.exports = {
 		"./src/**/*.{js,ts,jsx,tsx,mdx}",
 	],
 	darkMode: "class",
+
 	plugins: [
 		heroui({
 			themes: {

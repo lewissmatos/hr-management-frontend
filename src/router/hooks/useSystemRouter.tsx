@@ -1,28 +1,62 @@
-import { UserPlus } from "lucide-react";
+import { Languages, Sparkles } from "lucide-react";
 import { FC } from "react";
+import { useLsmTranslation } from "react-lsm";
+
+export type ItemGrouper = {
+	label: string;
+	Icon: FC<React.SVGProps<SVGSVGElement>>;
+	childrenPaths: RouteItem[];
+	isHidden?: boolean;
+};
 
 export type RouteItem = {
 	label: string;
-	Icon: FC<React.SVGProps<SVGSVGElement>>;
 	path: string;
-	subPaths?: RouteItem[];
 	screen: React.ReactNode;
 	isHidden?: boolean;
 };
 
 const useSystemRouter = () => {
-	const authenticatedPaths: RouteItem[] = [
+	const { translate } = useLsmTranslation();
+	const groupers: ItemGrouper[] = [
 		{
-			label: "Candidates",
-			Icon: () => <UserPlus size={18} />,
-			path: "candidates",
-			screen: <div>Candidates</div>,
+			label: translate("proficiencies"),
+			// TODO: MAKE THIS CUSTOMIZABLE
+			Icon: (props) => <Sparkles {...props} />,
+			childrenPaths: [
+				{
+					label: translate("appDrawer.common.list"),
+					path: "proficiencies",
+					screen: <div>proficiencies</div>,
+				},
+				{
+					label: translate("appDrawer.common.add"),
+					path: "add-proficiency",
+					screen: <div>add-proficiency</div>,
+				},
+			],
+		},
+		{
+			label: translate("languages"),
+			Icon: (props) => <Languages {...props} />,
+			childrenPaths: [
+				{
+					label: translate("appDrawer.common.list"),
+					path: "languages",
+					screen: <div>languages</div>,
+				},
+				{
+					label: translate("appDrawer.common.add"),
+					path: "add-language",
+					screen: <div>add-language</div>,
+				},
+			],
 		},
 	];
 
 	const getRoutes = (): RouteItem[] => {
-		const routes = authenticatedPaths?.filter((item) => !item.isHidden);
-		const actualRoutes = [...routes, ...routes.flatMap((item) => item.subPaths)]
+		const itemGroupers = groupers?.filter((item) => !item.isHidden);
+		const actualRoutes = [...itemGroupers.flatMap((item) => item.childrenPaths)]
 			.filter(Boolean)
 			.filter((item) => !(item as RouteItem).isHidden) as RouteItem[];
 
@@ -30,10 +64,10 @@ const useSystemRouter = () => {
 	};
 
 	const getNavigationItems = () => {
-		const routes = authenticatedPaths?.filter((item) => !item.isHidden);
+		const routes = groupers?.filter((item) => !item.isHidden);
 		const actualRoutes = [...routes]
 			.filter(Boolean)
-			.filter((item) => !(item as RouteItem).isHidden);
+			.filter((item) => !(item as ItemGrouper).isHidden);
 
 		return actualRoutes;
 	};

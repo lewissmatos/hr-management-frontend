@@ -4,9 +4,10 @@ import { HeroUIProvider } from "@heroui/react";
 import AuthenticatedRoutes from "./router/AuthenticatedRoutes";
 import UnauthenticatedRoutes from "./router/UnauthenticatedRoutes";
 import useAuthStore from "./features/store/auth-store";
+import usePreferencesStore from "./features/store/preferences-store";
 
 function App() {
-	const theme = "dark";
+	const theme = usePreferencesStore((state) => state.theme);
 	const { isAuthenticated } = useAuthStore((state) => state);
 
 	return (

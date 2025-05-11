@@ -21,6 +21,14 @@
 	"logout": {
 		"button": "Cerrar sesión"
 	},
+	"appDrawer": {
+		"common": {
+			"list": "Listado",
+			"add": "Agregar"
+		}
+	},
+	"proficiencies": "Competencias",
+	"languages": "Idiomas",
 	"loginScreen": {
 		"title": "Iniciar sesión",
 		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",

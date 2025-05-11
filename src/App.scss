@@ -4,4 +4,11 @@
 
 main {
 	@apply min-h-screen;
+	button:focus,
+	button:focus-visible {
+		outline: 0px auto transparent;
+	}
+	button:hover {
+		border-color: transparent;
+	}
 }
