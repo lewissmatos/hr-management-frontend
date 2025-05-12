@@ -10,7 +10,7 @@ type Props = {
 	label: string;
 	isActive: boolean;
 	createdAt: string;
-	disableData?: {
+	disableData: {
 		isPending: boolean;
 		toggleStatus: (id: number) => Promise<void>;
 	};
@@ -18,7 +18,6 @@ type Props = {
 		isPending: boolean;
 		updateLabel: (id: number, newLabel: string) => Promise<void>;
 	};
-	hideDisable?: boolean;
 };
 const GenericListCard: FC<Props> = ({
 	id,
@@ -26,7 +25,6 @@ const GenericListCard: FC<Props> = ({
 	isActive,
 	createdAt,
 	disableData,
-	hideDisable,
 	updateData,
 }) => {
 	const { translate } = useLsmTranslation();
@@ -113,15 +111,13 @@ const GenericListCard: FC<Props> = ({
 					})}
 				</p>
 				<div className="flex gap-2 items-center">
-					{hideDisable || !disableData || editData.isEditing ? null : (
-						<ToggleStatusButton
-							isLoading={disableData?.isPending}
-							isActive={isActive}
-							onPress={async () => {
-								await disableData?.toggleStatus(id);
-							}}
-						/>
-					)}
+					<ToggleStatusButton
+						isLoading={disableData?.isPending}
+						isActive={isActive}
+						onPress={async () => {
+							await disableData?.toggleStatus(id);
+						}}
+					/>
 					{editData.isEditing ? (
 						<MagicIconButton
 							size="sm"
