@@ -24,7 +24,7 @@ api.interceptors.request.use(
 api.interceptors.response.use(
 	(response) => {
 		const message = response.data?.message;
-		if ([200, 201, 204].includes(response.status)) {
+		if ([201, 204].includes(response.status)) {
 			if (message) {
 				toast.success(message);
 			}

@@ -6,7 +6,7 @@ const AuthenticatedLayout = () => {
 			<div className="w-2/12 ">
 				<AppDrawer />
 			</div>
-			<div className="w-10/12 p-4">
+			<div className="w-10/12 p-4 overflow-x-hidden">
 				<Outlet />
 			</div>
 		</section>

@@ -29,10 +29,12 @@
 	},
 	"proficiencies": "Competencias",
 	"languages": "Idiomas",
+	"addedAt": "Agregado en {date}",
+	"enable": "Habilitar",
+	"disable": "Deshabilitar",
 	"loginScreen": {
 		"title": "Iniciar sesión",
 		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",
-
 		"subtitle": "Inicie sesión para continuar",
 		"username": "Nombre de usuario",
 		"password": "Contraseña",

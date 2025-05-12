@@ -1,6 +1,8 @@
 import { Languages, Sparkles } from "lucide-react";
 import { FC } from "react";
 import { useLsmTranslation } from "react-lsm";
+import ProficiencyList from "../../components/proficiency/ProficiencyList";
+import LanguageList from "../../components/language/LanguageList";
 
 export type ItemGrouper = {
 	label: string;
@@ -27,7 +29,7 @@ const useSystemRouter = () => {
 				{
 					label: translate("appDrawer.common.list"),
 					path: "proficiencies",
-					screen: <div>proficiencies</div>,
+					screen: <ProficiencyList />,
 				},
 				{
 					label: translate("appDrawer.common.add"),
@@ -43,7 +45,7 @@ const useSystemRouter = () => {
 				{
 					label: translate("appDrawer.common.list"),
 					path: "languages",
-					screen: <div>languages</div>,
+					screen: <LanguageList />,
 				},
 				{
 					label: translate("appDrawer.common.add"),

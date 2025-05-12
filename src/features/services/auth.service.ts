@@ -1,5 +1,6 @@
 import { User } from "../../types/app-types";
-import axiosInstance from "../axios-instance";
+import axiosInstance from "./axios-instance";
+import { ApiResponse } from "../service-hooks/service-types";
 
 export type LoginPayload = {
 	username: string;
@@ -11,4 +12,4 @@ export type LoginResponse = {
 	token: string;
 };
 export const onLogin = async (data: LoginPayload) =>
-	await axiosInstance.post<LoginResponse>("/auth/login", data);
+	await axiosInstance.post<ApiResponse<LoginResponse>>("/auth/login", data);

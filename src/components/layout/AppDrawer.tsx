@@ -103,7 +103,7 @@ const AppDrawer = () => {
 		<div className="shadow-lg shadow-foreground-300 h-screen flex flex-col justify-between gap-2 py-2 px-4">
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-row justify-between gap-1 ">
-					<h4 className="text-2xl font-semibold">{translate("APP_NAME")}</h4>
+					<h4 className="text-xl font-semibold">{translate("APP_NAME")}</h4>
 					<ThemeToggler />
 				</div>
 				<div className="flex flex-col gap-2">

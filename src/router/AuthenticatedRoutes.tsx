@@ -5,7 +5,7 @@ import useSystemRouter from "./hooks/useSystemRouter";
 const AuthenticatedRoutes = () => {
 	const { getRoutes } = useSystemRouter();
 
-	const homePath = "/candidates";
+	const homePath = "/proficiencies";
 	const actualRoutes = getRoutes();
 	return (
 		<>

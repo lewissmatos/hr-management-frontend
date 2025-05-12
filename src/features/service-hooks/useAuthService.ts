@@ -9,7 +9,7 @@ export const useLoginService = () => {
 	return useMutation({
 		mutationFn: onLogin,
 		onSuccess: (data) => {
-			const { user, token } = data.data;
+			const { user, token } = data.data.data;
 			login(user, token);
 			qc.invalidateQueries({ queryKey: ["login"] });
 		},
