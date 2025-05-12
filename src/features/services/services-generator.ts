@@ -3,7 +3,7 @@ import { ApiResponse } from "../service-hooks/service-types";
 
 export const serviceGenerator = <T>(entity: string) => {
 	const onGet = async () => {
-		return await axiosInstance.get<ApiResponse<T[]>>(`/${entity}`);
+		return (await axiosInstance.get<ApiResponse<T[]>>(`/${entity}`)).data;
 	};
 
 	const onAdd = async (body: Partial<T>) => {
@@ -11,7 +11,7 @@ export const serviceGenerator = <T>(entity: string) => {
 	};
 
 	const onUpdate = async (id: number, body: Partial<T>) => {
-		return await axiosInstance.patch<ApiResponse<T>>(`/${entity}/${id}`, body);
+		return await axiosInstance.put<ApiResponse<T>>(`/${entity}/${id}`, body);
 	};
 
 	const onToggleStatus = async (id: number) => {

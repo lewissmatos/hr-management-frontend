@@ -2,11 +2,12 @@ export interface ApiResponse<T> {
 	data: T;
 	message: string;
 	status: number;
-	meta: PaginationResult<T> | null;
+	meta?: PaginationResult | null;
 }
-export interface PaginationResult<T> {
-	data: T[];
-	total: number;
-	page: number;
-	limit: number;
+export interface PaginationResult {
+	meta: {
+		total: number;
+		page: number;
+		limit: number;
+	};
 }

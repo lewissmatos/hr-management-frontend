@@ -27,6 +27,7 @@
 			"add": "Agregar"
 		}
 	},
+
 	"proficiencies": "Competencias",
 	"languages": "Idiomas",
 	"addedAt": "Agregado en {date}",

@@ -1,6 +1,6 @@
 import { CircleCheckBig, CircleMinus } from "lucide-react";
 import { FC } from "react";
-import MagicIconButton from "./MagicIconButton";
+import MagicIconButton from "../ui/MagicIconButton";
 import { useLsmTranslation } from "react-lsm";
 
 type Props = {

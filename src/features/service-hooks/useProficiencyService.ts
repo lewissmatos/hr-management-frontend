@@ -30,7 +30,8 @@ export const useGetProficiencies = () => {
 export const useUpdateProficiency = () => {
 	const qc = getQueryClient();
 	return useMutation({
-		mutationFn: (data: Proficiency) => onUpdateProficiency(data.id, data),
+		mutationFn: (data: Partial<Proficiency>) =>
+			onUpdateProficiency(data.id as number, data),
 		onSuccess: (data) => {
 			console.log(data);
 			qc.invalidateQueries({ queryKey: ["update-proficiency"] });
