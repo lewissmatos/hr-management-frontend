@@ -42,7 +42,7 @@ export const useToggleStatusLanguage = () => {
 	return useMutation({
 		mutationFn: (id: number) => onToggleStatusLanguage(id),
 		onSuccess: () => {
-			qc.invalidateQueries({ queryKey: ["toggle-status-language"] });
+			qc.invalidateQueries({ queryKey: ["toggle-language-status"] });
 		},
 	});
 };

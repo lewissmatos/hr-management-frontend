@@ -7,6 +7,9 @@ export const serviceGenerator = <T>(entity: string) => {
 	const onGet = async () => {
 		return (await axiosInstance.get<ApiResponse<T[]>>(`/${entity}`)).data;
 	};
+	const onGetSingle = async (id: number) => {
+		return (await axiosInstance.get<ApiResponse<T>>(`/${entity}/${id}`)).data;
+	};
 
 	const onAdd = async (body: Partial<T>) => {
 		return toastHandler(
@@ -34,5 +37,5 @@ export const serviceGenerator = <T>(entity: string) => {
 		return response;
 	};
 
-	return { onGet, onAdd, onUpdate, onToggleStatus };
+	return { onGet, onGetSingle, onAdd, onUpdate, onToggleStatus };
 };

@@ -16,7 +16,14 @@
 		"clear": "Limpiar",
 		"select": "Seleccionar",
 		"selectAll": "Seleccionar todo",
-		"deselectAll": "Deseleccionar todo"
+		"deselectAll": "Deseleccionar todo",
+		"dateRange": "Desde -> Hasta",
+		"loading": "Loading...",
+		"actions": "Acciones"
+	},
+	"element": "Elemento",
+	"noDataScreen": {
+		"goToAddElementScreen": "Ir a agregar {element}"
 	},
 	"logout": {
 		"button": "Cerrar sesión"
@@ -27,9 +34,18 @@
 			"add": "Agregar"
 		}
 	},
-
+	"magicTable": {
+		"noData": "No hay datos disponibles"
+	},
+	"name": "Nombre",
+	"level": "Nivel",
+	"institution": "Institución",
+	"startDate": "Fecha de inicio",
+	"endDate": "Fecha de finalización",
 	"proficiencies": "Competencias",
 	"languages": "Idiomas",
+	"trainings": "Capacitaciones",
+	"training": "Capacitación",
 	"addedAt": "Agregado en {date}",
 	"enable": "Habilitar",
 	"disable": "Deshabilitar",
@@ -38,11 +54,14 @@
 		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",
 		"subtitle": "Inicie sesión para continuar",
 		"username": "Nombre de usuario",
-
 		"password": "Contraseña",
 		"showPassword": "Mostrar contraseña",
 		"hidePassword": "Ocultar contraseña",
 		"loginButton": "Iniciar sesión",
 		"Pantalla equivocada?": "Ir a 'Puestos de trabajo'"
+	},
+	"trainingDetailsScreen": {
+		"manage": "Manejar Capacitación",
+		"add": "Agregar Capacitación"
 	}
 }

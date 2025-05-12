@@ -55,17 +55,32 @@ const NavigationItem = ({
 				}}
 			>
 				<div className="flex flex-col gap-2">
-					{grouper.childrenPaths?.map((subPath) => (
-						<Button
-							key={subPath.path}
-							variant={selectedItem.path == subPath.path ? "flat" : "light"}
-							className="w-full text-foreground text-left justify-start"
-							color="primary"
-							onPress={() => onSelectItem(subPath.label, subPath.path)}
-						>
-							{subPath.label}
-						</Button>
-					))}
+					{grouper.childrenPaths
+						?.filter((sP) => !sP.hideFromDrawer)
+						.map((subPath) => (
+							<Button
+								key={subPath.path}
+								variant={selectedItem.path == subPath.path ? "flat" : "light"}
+								className={`w-full ${
+									selectedItem.path == subPath.path
+										? "text-primary-500"
+										: "text-default-500"
+								} text-md text-left justify-between`}
+								color="primary"
+								onPress={() => onSelectItem(subPath.label, subPath.path)}
+								endContent={
+									subPath.Icon ? (
+										<subPath.Icon
+											className={
+												selectedItem.path == subPath.path ? "text-primary" : ""
+											}
+										/>
+									) : null
+								}
+							>
+								{subPath.label}
+							</Button>
+						))}
 				</div>
 			</AccordionItem>
 		</Accordion>
@@ -77,9 +92,6 @@ const AppDrawer = () => {
 	const { getNavigationItems } = useSystemRouter();
 	const grouperItems = getNavigationItems();
 	const navigate = useNavigate();
-	const [selectedKeys, setSelectedKeys] = useState(
-		new Set([grouperItems[0].label])
-	);
 
 	const path: string = location.pathname?.split("/")?.[1] ?? "";
 
@@ -87,21 +99,30 @@ const AppDrawer = () => {
 		const selectedItem = grouperItems
 			.flatMap((item) => item.childrenPaths)
 			.find((subItem) => {
-				return subItem.path === path;
+				const cleanPath = subItem.path.split("/")[0];
+
+				return cleanPath === path;
 			})?.path;
 
 		const grouper = grouperItems.find((item) =>
-			item.childrenPaths?.some((subItem) => subItem.path === path)
+			item.childrenPaths?.some((subItem) => subItem.path.split("/")[0] === path)
 		)?.label;
+
 		return {
 			grouper: grouper as string,
 			path: selectedItem as string,
 		};
 	}, [path, grouperItems]);
+	const [selectedKeys, setSelectedKeys] = useState(
+		selectedItem.grouper
+			? new Set([selectedItem.grouper])
+			: new Set([grouperItems[0].label])
+	);
 
 	const onSelectItem = useCallback((item?: string, url?: string) => {
 		if (!item || !url) return <></>;
-		const path = url.split("/")?.[0];
+		const path = url.split("/")[0];
+
 		navigate(`/${path}`, { replace: true });
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);

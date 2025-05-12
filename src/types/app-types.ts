@@ -15,4 +15,22 @@ type Proficiency = {
 type Language = {
 	name: string;
 } & GlobalModel;
-export type { User, Proficiency, Language };
+
+export enum TrainingLevels {
+	GRADO = "Grado",
+	POSTGRADO = "Post-grado",
+	MAESTRIA = "Maestría",
+	DOCTORADO = "Doctorado",
+	TECNICO = "Técnico",
+	GESTION = "Gestión",
+}
+
+type Training = {
+	name: string;
+	level: TrainingLevels;
+	startDate: string;
+	endDate: string;
+	institution: string;
+} & GlobalModel;
+
+export type { User, Proficiency, Language, Training };

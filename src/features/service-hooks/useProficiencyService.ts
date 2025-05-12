@@ -42,7 +42,7 @@ export const useToggleStatusProficiency = () => {
 	return useMutation({
 		mutationFn: (id: number) => onToggleStatusProficiency(id),
 		onSuccess: () => {
-			qc.invalidateQueries({ queryKey: ["toggle-status-proficiency"] });
+			qc.invalidateQueries({ queryKey: ["toggle-proficiency-status"] });
 		},
 	});
 };

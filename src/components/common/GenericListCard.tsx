@@ -2,7 +2,7 @@ import { Card, CardFooter, CardHeader, Divider } from "@heroui/react";
 import React, { FC } from "react";
 import { MagicIconButton, MagicInput } from "../ui";
 import { useLsmTranslation } from "react-lsm";
-import { CircleX, Edit, Save } from "lucide-react";
+import { CircleX, Pencil, Save } from "lucide-react";
 import ToggleStatusButton from "./ToggleStatusButton";
 import { format } from "date-fns";
 type Props = {
@@ -96,7 +96,7 @@ const GenericListCard: FC<Props> = ({
 						{editData.isEditing ? (
 							<CircleX size={18} className="text-red-500" />
 						) : (
-							<Edit size={18} />
+							<Pencil size={18} />
 						)}
 					</MagicIconButton>
 				</div>

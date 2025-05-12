@@ -1,7 +1,7 @@
 import { Button } from "@heroui/react";
 import { FC, useState } from "react";
 import { MagicIconButton, MagicInput } from "../ui";
-import { CircleX, Plus, Save } from "lucide-react";
+import { CircleX, PlusCircle, Save } from "lucide-react";
 import { useLsmTranslation } from "react-lsm";
 
 type Props = {
@@ -64,7 +64,7 @@ const BasicInputEntityAdder: FC<Props> = ({ useAddEntity }) => {
 				color={isAdding ? "success" : "primary"}
 				className="w-3/12"
 				isDisabled={!inputValue && isAdding}
-				endContent={isAdding ? <Save /> : <Plus />}
+				endContent={isAdding ? <Save /> : <PlusCircle />}
 			>
 				{isAdding ? translate("common.save") : translate("common.add")}
 			</Button>

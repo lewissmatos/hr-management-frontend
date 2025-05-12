@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { JSX } from "react";
 import {
 	Table,
 	TableHeader,
@@ -14,34 +14,34 @@ import {
 } from "@heroui/react";
 import { useLsmTranslation } from "react-lsm";
 
-type TableColumnType = {
+type TableColumnType<T> = {
 	// key is optional, if not provided, the whole row will be used as the key
 	key?: string;
 	element: string;
 	selector: (
-		value: string | number | object
-	) => string | React.ReactNode | null;
+		value: string | number | object | T
+	) => string | React.ReactNode | null | JSX.Element;
 	className?: string;
 	props?: TableColumnProps<"th">;
 	ignoreTranslation?: boolean;
 	isHidden?: boolean;
 };
-type Props = {
-	columns?: TableColumnType[];
-	data?: any[];
+type Props<T> = {
+	columns?: TableColumnType<T>[];
+	data?: T[];
 	headerProps?: TableHeaderProps<"tr">;
 	bodyProps?: TableBodyProps<"tr">;
 	props?: TableProps;
 	isLoading?: boolean;
 };
-const MagicTable: FC<TableProps & Props> = ({
+const MagicTable = <T,>({
 	columns: _columns = [],
 	data = [],
 	headerProps,
 	bodyProps,
 	isLoading,
 	...props
-}) => {
+}: TableProps & Props<T>) => {
 	const columns = _columns.filter((column) => !column?.isHidden);
 	const { translate } = useLsmTranslation();
 
@@ -94,7 +94,7 @@ const MagicTable: FC<TableProps & Props> = ({
 				{data?.length ? (
 					//Renders the rows in case data exists
 					data.map((row) => (
-						<TableRow key={row?.externalId}>
+						<TableRow key={(row as { id: number }).id! as unknown as number}>
 							{columns.map((column) => (
 								<TableCell key={column.key}>
 									{column.selector(column.key ? row[column.key] : row)}
