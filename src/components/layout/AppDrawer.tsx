@@ -1,4 +1,10 @@
-import { Button, Accordion, AccordionItem, Selection } from "@heroui/react";
+import {
+	Button,
+	Accordion,
+	AccordionItem,
+	Selection,
+	Divider,
+} from "@heroui/react";
 import { LogOut } from "lucide-react";
 import { useLsmTranslation } from "react-lsm";
 import useAuthStore from "../../features/store/auth-store";
@@ -108,14 +114,17 @@ const AppDrawer = () => {
 				</div>
 				<div className="flex flex-col gap-2">
 					{grouperItems.map((grouper) => (
-						<NavigationItem
-							selectedKeys={selectedKeys}
-							grouper={grouper}
-							selectedItem={selectedItem}
-							setSelectedKeys={setSelectedKeys as (keys: Selection) => void}
-							onSelectItem={onSelectItem}
-							key={grouper.label}
-						/>
+						<>
+							<NavigationItem
+								selectedKeys={selectedKeys}
+								grouper={grouper}
+								selectedItem={selectedItem}
+								setSelectedKeys={setSelectedKeys as (keys: Selection) => void}
+								onSelectItem={onSelectItem}
+								key={grouper.label}
+							/>
+							{grouper.showDivider && <Divider />}
+						</>
 					))}
 				</div>
 			</div>

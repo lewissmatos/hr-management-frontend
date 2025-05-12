@@ -13,7 +13,6 @@ const LanguageList = () => {
 
 	const { mutateAsync: updateName, isPending: isUpdateNamePending } =
 		useUpdateLanguage();
-	console.log(data);
 
 	const list = data?.data;
 

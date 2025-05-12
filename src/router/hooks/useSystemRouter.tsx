@@ -9,6 +9,7 @@ export type ItemGrouper = {
 	Icon: FC<React.SVGProps<SVGSVGElement>>;
 	childrenPaths: RouteItem[];
 	isHidden?: boolean;
+	showDivider?: boolean;
 };
 
 export type RouteItem = {
@@ -23,18 +24,12 @@ const useSystemRouter = () => {
 	const groupers: ItemGrouper[] = [
 		{
 			label: translate("proficiencies"),
-			// TODO: MAKE THIS CUSTOMIZABLE
 			Icon: (props) => <Sparkles {...props} />,
 			childrenPaths: [
 				{
 					label: translate("appDrawer.common.list"),
 					path: "proficiencies",
 					screen: <ProficiencyList />,
-				},
-				{
-					label: translate("appDrawer.common.add"),
-					path: "add-proficiency",
-					screen: <div>add-proficiency</div>,
 				},
 			],
 		},
@@ -47,12 +42,8 @@ const useSystemRouter = () => {
 					path: "languages",
 					screen: <LanguageList />,
 				},
-				{
-					label: translate("appDrawer.common.add"),
-					path: "add-language",
-					screen: <div>add-language</div>,
-				},
 			],
+			showDivider: true,
 		},
 	];
 

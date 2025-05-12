@@ -45,18 +45,28 @@ const GenericListCard: FC<Props> = ({
 					{editData.isEditing ? (
 						<MagicInput
 							value={editData.newDescription}
-							onChange={(e) =>
+							onChange={async (e) => {
 								setEditData((prev) => ({
 									...prev,
 									newDescription: e.target.value,
-								}))
-							}
+								}));
+							}}
+							onKeyUp={async (e) => {
+								if (e.key === "Enter") {
+									await updateData?.updateLabel(id, editData.newDescription);
+									setEditData((prev) => ({
+										...prev,
+										isEditing: !prev.isEditing,
+									}));
+								}
+							}}
 							classNames={{
 								input: "text-md font-semibold p-0 gap-0",
 							}}
 							size="sm"
 							className="w-full"
-							// variant="underlined"
+							autoFocus
+							isDisabled={!isActive || updateData?.isPending}
 						/>
 					) : (
 						<p
