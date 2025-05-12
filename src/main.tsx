@@ -16,7 +16,7 @@ createRoot(document.getElementById("root")!).render(
 		<LSMProvider>
 			<QueryClientProvider client={getQueryClient()}>
 				<App />
-				<Toaster position="top-right" />
+				<Toaster position="bottom-right" />
 			</QueryClientProvider>
 		</LSMProvider>
 	</StrictMode>

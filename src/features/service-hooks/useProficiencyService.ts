@@ -13,8 +13,7 @@ export const useAddProficiency = () => {
 	const qc = getQueryClient();
 	return useMutation({
 		mutationFn: onAddProficiency,
-		onSuccess: (data) => {
-			console.log(data);
+		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["add-proficiency"] });
 		},
 	});
@@ -32,8 +31,7 @@ export const useUpdateProficiency = () => {
 	return useMutation({
 		mutationFn: (data: Partial<Proficiency>) =>
 			onUpdateProficiency(data.id as number, data),
-		onSuccess: (data) => {
-			console.log(data);
+		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["update-proficiency"] });
 		},
 	});
@@ -43,8 +41,7 @@ export const useToggleStatusProficiency = () => {
 	const qc = getQueryClient();
 	return useMutation({
 		mutationFn: (id: number) => onToggleStatusProficiency(id),
-		onSuccess: (data) => {
-			console.log(data);
+		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["toggle-status-proficiency"] });
 		},
 	});

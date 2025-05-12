@@ -1,5 +1,7 @@
 import axiosInstance from "./axios-instance";
 import { ApiResponse } from "../service-hooks/service-types";
+import toast from "react-hot-toast";
+import { AxiosResponse } from "axios";
 
 export const serviceGenerator = <T>(entity: string) => {
 	const onGet = async () => {
@@ -7,17 +9,29 @@ export const serviceGenerator = <T>(entity: string) => {
 	};
 
 	const onAdd = async (body: Partial<T>) => {
-		return await axiosInstance.post<ApiResponse<T>>(`/${entity}`, body);
+		return toastHandler(
+			await axiosInstance.post<ApiResponse<T>>(`/${entity}`, body)
+		);
 	};
 
 	const onUpdate = async (id: number, body: Partial<T>) => {
-		return await axiosInstance.put<ApiResponse<T>>(`/${entity}/${id}`, body);
+		return toastHandler(
+			await axiosInstance.put<ApiResponse<T>>(`/${entity}/${id}`, body)
+		);
 	};
 
 	const onToggleStatus = async (id: number) => {
-		return await axiosInstance.patch<ApiResponse<T>>(
-			`/${entity}/${id}/toggle-status`
+		return toastHandler(
+			await axiosInstance.patch<ApiResponse<T>>(
+				`/${entity}/${id}/toggle-status`
+			)
 		);
+	};
+	const toastHandler = async <T>(response: AxiosResponse<ApiResponse<T>>) => {
+		if (response.status === 200) {
+			toast.success(response.data.message);
+		}
+		return response;
 	};
 
 	return { onGet, onAdd, onUpdate, onToggleStatus };

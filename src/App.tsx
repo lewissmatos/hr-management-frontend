@@ -14,16 +14,14 @@ function App() {
 		<BrowserRouter>
 			<HeroUIProvider>
 				<main
-					className={`app-${theme} text-foreground bg-background p-0 transition-all duration-100 selection:bg-primary-200 selection:text-primary-600`}
+					className={`app-${
+						isAuthenticated ? theme : "dark"
+					} text-foreground bg-background p-0 transition-all duration-100 selection:bg-primary-200 selection:text-primary-600`}
 				>
 					{isAuthenticated ? (
-						<main className={`app-${theme}`}>
-							<AuthenticatedRoutes />
-						</main>
+						<AuthenticatedRoutes />
 					) : (
-						<main className={`app-dark`}>
-							<UnauthenticatedRoutes />
-						</main>
+						<UnauthenticatedRoutes />
 					)}
 				</main>
 			</HeroUIProvider>

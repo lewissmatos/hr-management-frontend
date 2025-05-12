@@ -15,7 +15,7 @@ const baseLayout = {
 	},
 };
 const basePrimaryColors = {
-	...generateColorPalette("#794ea9"),
+	...generateColorPalette("#60a884"),
 };
 
 /** @type {import('tailwindcss').Config} */

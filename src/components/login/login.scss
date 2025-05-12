@@ -4,27 +4,36 @@
 	@apply py-[1rem];
 
 	position: relative;
-	background: rgb(26, 15, 39);
+	background: rgb(48, 84, 66); // #305442
 	background: -moz-linear-gradient(
 		301deg,
-		rgba(26, 15, 39, 1) 41%,
-		rgba(16, 10, 34, 1) 64%,
-		rgba(8, 7, 9, 1) 74%,
-		rgba(11, 10, 32, 1) 91%
+		rgba(48, 84, 66, 1) 41%,
+		// #305442
+		rgba(30, 50, 40, 1) 64%,
+		// #1e3228
+		rgba(15, 25, 20, 1) 74%,
+		// #0f1914
+		rgba(5, 10, 8, 1) 91% // #050a08
 	);
 	background: -webkit-linear-gradient(
 		301deg,
-		rgba(26, 15, 39, 1) 41%,
-		rgba(16, 10, 34, 1) 64%,
-		rgba(8, 7, 9, 1) 74%,
-		rgba(11, 10, 32, 1) 91%
+		rgba(48, 84, 66, 1) 41%,
+		// #305442
+		rgba(30, 50, 40, 1) 64%,
+		// #1e3228
+		rgba(15, 25, 20, 1) 74%,
+		// #0f1914
+		rgba(5, 10, 8, 1) 91% // #050a08
 	);
 	background: linear-gradient(
 		301deg,
-		rgba(26, 15, 39, 1) 41%,
-		rgba(16, 10, 34, 1) 64%,
-		rgba(8, 7, 9, 1) 74%,
-		rgba(11, 10, 32, 1) 91%
+		rgb(18, 35, 26) 41%,
+		// #305442
+		rgb(18, 34, 26) 64%,
+		// #1e3228
+		rgba(15, 25, 20, 1) 74%,
+		// #0f1914
+		rgba(5, 10, 8, 1) 91% // #050a08
 	);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#1a0f27",endColorstr="#0b0a20",GradientType=1);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#305442",endColorstr="#050a08",GradientType=1);
 }

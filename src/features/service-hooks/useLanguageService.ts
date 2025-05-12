@@ -13,8 +13,7 @@ export const useAddLanguage = () => {
 	const qc = getQueryClient();
 	return useMutation({
 		mutationFn: onAddLanguage,
-		onSuccess: (data) => {
-			console.log(data);
+		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["add-language"] });
 		},
 	});
@@ -32,8 +31,7 @@ export const useUpdateLanguage = () => {
 	return useMutation({
 		mutationFn: (data: Partial<Language>) =>
 			onUpdateLanguage(data.id as number, data),
-		onSuccess: (data) => {
-			console.log(data);
+		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["update-language"] });
 		},
 	});
@@ -43,8 +41,7 @@ export const useToggleStatusLanguage = () => {
 	const qc = getQueryClient();
 	return useMutation({
 		mutationFn: (id: number) => onToggleStatusLanguage(id),
-		onSuccess: (data) => {
-			console.log(data);
+		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["toggle-status-language"] });
 		},
 	});

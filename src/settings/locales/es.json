@@ -38,7 +38,10 @@
 		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",
 		"subtitle": "Inicie sesión para continuar",
 		"username": "Nombre de usuario",
+
 		"password": "Contraseña",
+		"showPassword": "Mostrar contraseña",
+		"hidePassword": "Ocultar contraseña",
 		"loginButton": "Iniciar sesión",
 		"Pantalla equivocada?": "Ir a 'Puestos de trabajo'"
 	}

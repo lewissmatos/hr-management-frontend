@@ -18,7 +18,6 @@ const useAuthStore = create<AuthStore>()(
 			token: null,
 			login: (user: User, token: string) => {
 				localStorage.setItem("token", token);
-				console.log(token);
 				return set({ isAuthenticated: true, user, token });
 			},
 			logout: () => {
