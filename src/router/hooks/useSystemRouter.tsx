@@ -1,17 +1,21 @@
 import {
+	BriefcaseBusiness,
+	FileSliders,
 	GraduationCap,
 	Languages,
-	List,
-	PlusCircle,
+	Rows4,
 	Sparkles,
+	User,
 } from "lucide-react";
 import { FC } from "react";
 import { useLsmTranslation } from "react-lsm";
 import ProficiencyList from "../../components/proficiency/ProficiencyList";
 import LanguageList from "../../components/language/LanguageList";
 import TrainingsScreen from "../../components/training/TrainingsScreen";
-import TrainingDetailsScreen from "../../components/training/TrainingDetailsScreen";
-
+import ManageTrainingScreen from "../../components/training/ManageTrainingScreen";
+import CandidatesScreen from "../../components/candidate/CandidatesScreen";
+import JobPositionsScreen from "../../components/job-position/JobPositionsScreen";
+import ManageJobPositionScreen from "../../components/job-position/ManageJobPositionScreen";
 export type ItemGrouper = {
 	label: string;
 	Icon: FC<React.SVGProps<SVGSVGElement>>;
@@ -40,7 +44,7 @@ const useSystemRouter = () => {
 					label: translate("appDrawer.common.list"),
 					path: "proficiencies",
 					screen: <ProficiencyList />,
-					Icon: (props) => <List {...props} />,
+					Icon: (props) => <Rows4 {...props} />,
 				},
 			],
 		},
@@ -52,7 +56,7 @@ const useSystemRouter = () => {
 					label: translate("appDrawer.common.list"),
 					path: "languages",
 					screen: <LanguageList />,
-					Icon: (props) => <List {...props} />,
+					Icon: (props) => <Rows4 {...props} />,
 				},
 			],
 			showDivider: true,
@@ -65,23 +69,71 @@ const useSystemRouter = () => {
 					label: translate("appDrawer.common.list"),
 					path: "trainings",
 					screen: <TrainingsScreen />,
-					Icon: (props) => <List {...props} />,
+					Icon: (props) => <Rows4 {...props} />,
 				},
 				{
-					label: translate("appDrawer.common.add"),
+					label: translate("appDrawer.common.manage"),
 					path: "training",
-					screen: <TrainingDetailsScreen />,
-					Icon: (props) => <PlusCircle {...props} />,
+					screen: <ManageTrainingScreen />,
+					Icon: (props) => <FileSliders {...props} />,
 				},
 				{
-					label: translate("appDrawer.common.add"),
+					label: translate("appDrawer.common.manage"),
 					path: "training/:id",
-					screen: <TrainingDetailsScreen />,
-					Icon: (props) => <PlusCircle {...props} />,
+					screen: <ManageTrainingScreen />,
+					Icon: (props) => <FileSliders {...props} />,
 					hideFromDrawer: true,
 				},
 			],
 			showDivider: true,
+		},
+		{
+			label: translate("jobPositions"),
+			Icon: (props) => {
+				return <BriefcaseBusiness {...props} />;
+			},
+			childrenPaths: [
+				{
+					label: translate("appDrawer.common.list"),
+					path: "job-positions",
+					screen: <JobPositionsScreen />,
+					Icon: (props) => <Rows4 {...props} />,
+				},
+				{
+					label: translate("appDrawer.common.manage"),
+					path: "job-position",
+					screen: <ManageJobPositionScreen />,
+					Icon: (props) => <FileSliders {...props} />,
+				},
+				{
+					label: translate("appDrawer.common.manage"),
+					path: "job-position/:id",
+					screen: <ManageJobPositionScreen />,
+					Icon: (props) => <FileSliders {...props} />,
+					hideFromDrawer: true,
+				},
+			],
+		},
+		{
+			label: translate("candidates"),
+			Icon: (props) => {
+				return <User {...props} />;
+			},
+			childrenPaths: [
+				{
+					label: translate("appDrawer.common.list"),
+					path: "candidates",
+					screen: <CandidatesScreen />,
+					Icon: (props) => <Rows4 {...props} />,
+				},
+				{
+					label: translate("appDrawer.common.manage"),
+					path: "candidate/:id",
+					screen: <ManageTrainingScreen />,
+					Icon: (props) => <FileSliders {...props} />,
+					hideFromDrawer: true,
+				},
+			],
 		},
 	];
 

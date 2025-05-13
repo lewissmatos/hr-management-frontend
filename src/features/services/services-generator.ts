@@ -30,6 +30,7 @@ export const serviceGenerator = <T>(entity: string) => {
 			)
 		);
 	};
+
 	const toastHandler = async <T>(response: AxiosResponse<ApiResponse<T>>) => {
 		if (response.status === 200) {
 			toast.success(response.data.message);

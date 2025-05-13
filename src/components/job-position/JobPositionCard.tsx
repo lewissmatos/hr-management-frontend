@@ -1,0 +1,115 @@
+import {
+	Card,
+	CardBody,
+	CardFooter,
+	CardHeader,
+	Chip,
+	Divider,
+} from "@heroui/react";
+import React, { FC } from "react";
+import { useLsmTranslation } from "react-lsm";
+import {
+	CalendarDays,
+	CircleDollarSign,
+	RefreshCcw,
+	Ban,
+	TriangleAlert,
+	Pencil,
+} from "lucide-react";
+import { JobPosition } from "../../types/app-types";
+import { format } from "date-fns";
+import { formatCurrency } from "../../utils/format.utils";
+import { getJobPositionRiskLevelColorClass } from "./job-position.utils";
+import { useToggleJobPositionAvailability } from "../../features/service-hooks/useJobPositionService";
+import { MagicIconButton } from "../ui";
+import { useNavigate } from "react-router-dom";
+type Props = {
+	position: JobPosition;
+	refetch: () => Promise<void>;
+};
+const JobPositionCard: FC<Props> = ({ position, refetch }) => {
+	const { translate } = useLsmTranslation();
+	const navigate = useNavigate();
+	const {
+		mutateAsync: onToggleAvailability,
+		isPending: isToggleAvailabilityPending,
+	} = useToggleJobPositionAvailability();
+	const riskLevelColorClass = getJobPositionRiskLevelColorClass(
+		position.riskLevel
+	);
+	return (
+		<Card className="min-w-[300px]" shadow="sm">
+			<CardHeader className="flex gap-3">
+				<div className="flex gap-2 flex-row justify-start items-center w-full">
+					<Chip
+						variant="bordered"
+						color={riskLevelColorClass as unknown as any}
+						size="sm"
+						className="bg-transparent`"
+						radius="sm"
+					>
+						<TriangleAlert
+							className={`text-${riskLevelColorClass}-500 w-4 h-4`}
+						/>
+					</Chip>
+					<p
+						className={`text-md font-semibold ${
+							!position?.isAvailable ? "text-foreground-500 opacity-60" : ""
+						}`}
+					>
+						{position?.name}
+					</p>
+				</div>
+			</CardHeader>
+			<Divider />
+			<CardBody>
+				<div className="text-sm text-foreground-500 flex gap-2 items-center justify-start">
+					<CircleDollarSign size={18} />
+					{formatCurrency(Number(position.minSalary))} -{" "}
+					{formatCurrency(Number(position.maxSalary))}
+				</div>
+			</CardBody>
+			<Divider />
+			<CardFooter className="flex flex-row gap-2 justify-between items-center">
+				<div className="text-sm text-foreground-500 flex flex-row gap-2">
+					<CalendarDays size={18} />
+					{format(position.createdAt, "dd-MM-yyyy")}
+				</div>
+				<div className="flex gap-2 items-center">
+					<MagicIconButton
+						size="sm"
+						variant="flat"
+						onPress={() => {
+							navigate(`/job-position/${position.id}`);
+						}}
+					>
+						<Pencil size={18} />
+					</MagicIconButton>
+					<MagicIconButton
+						tooltipProps={{
+							content: position.isAvailable
+								? translate("common.markAsUnavailable")
+								: translate("common.markAsAvailable"),
+							color: position.isAvailable ? "danger" : "success",
+						}}
+						size="sm"
+						variant="flat"
+						onPress={async () => {
+							await onToggleAvailability(position.id);
+							await refetch();
+						}}
+						isDisabled={isToggleAvailabilityPending}
+					>
+						{position.isAvailable ? (
+							<Ban size={18} className="text-red-500" />
+						) : (
+							<RefreshCcw size={18} className="text-green-500" />
+						)}
+					</MagicIconButton>
+				</div>
+			</CardFooter>
+		</Card>
+	);
+};
+
+export default JobPositionCard;

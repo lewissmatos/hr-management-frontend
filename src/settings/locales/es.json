@@ -19,7 +19,11 @@
 		"deselectAll": "Deseleccionar todo",
 		"dateRange": "Desde -> Hasta",
 		"loading": "Loading...",
-		"actions": "Acciones"
+		"actions": "Acciones",
+		"markAsUnavailable": "Marcar como no disponible",
+		"markAsAvailable": "Marcar como disponible",
+		"enable": "Habilitar",
+		"disable": "Deshabilitar"
 	},
 	"element": "Elemento",
 	"noDataScreen": {
@@ -31,24 +35,32 @@
 	"appDrawer": {
 		"common": {
 			"list": "Listado",
-			"add": "Agregar"
+			"add": "Agregar",
+			"manage": "Gestionar"
 		}
 	},
 	"magicTable": {
 		"noData": "No hay datos disponibles"
 	},
 	"name": "Nombre",
+	"description": "Descripción",
 	"level": "Nivel",
 	"institution": "Institución",
 	"startDate": "Fecha de inicio",
 	"endDate": "Fecha de finalización",
+	"training": "Capacitación",
+	"addedAt": "Agregado en {date}",
+
 	"proficiencies": "Competencias",
 	"languages": "Idiomas",
 	"trainings": "Capacitaciones",
-	"training": "Capacitación",
-	"addedAt": "Agregado en {date}",
-	"enable": "Habilitar",
-	"disable": "Deshabilitar",
+	"candidates": "Candidatos",
+	"candidate": "Candidato",
+	"jobPositions": "Puestos de trabajo",
+	"jobPosition": "Puesto de trabajo",
+	"riskLevel": "Nivel de riesgo",
+	"minSalary": "Salario mínimo",
+	"maxSalary": "Salario máximo",
 	"loginScreen": {
 		"title": "Iniciar sesión",
 		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",
@@ -63,5 +75,9 @@
 	"trainingDetailsScreen": {
 		"manage": "Manejar Capacitación",
 		"add": "Agregar Capacitación"
+	},
+	"jobPositionDetailsScreen": {
+		"manage": "Manejar Puesto de Trabajo",
+		"add": "Agregar Puesto de Trabajo"
 	}
 }

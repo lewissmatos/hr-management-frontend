@@ -14,7 +14,7 @@ import {
 import { Save } from "lucide-react";
 import NoDataScreen from "../ui/NoDataScreen";
 
-const TrainingDetailsScreen = () => {
+const ManageTrainingScreen = () => {
 	const { translate } = useLsmTranslation();
 	const navigate = useNavigate();
 	const id = useParams<{ id?: string }>()?.id;
@@ -75,7 +75,7 @@ const TrainingDetailsScreen = () => {
 			>
 				<MagicInput
 					{...register("name", { required: true })}
-					label={translate("name")}
+					label={translate("description")}
 					className="w-full"
 					type="text"
 					defaultValue={training?.name}
@@ -136,4 +136,4 @@ const TrainingDetailsScreen = () => {
 	);
 };
 
-export default TrainingDetailsScreen;
+export default ManageTrainingScreen;

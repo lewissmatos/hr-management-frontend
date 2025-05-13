@@ -1,9 +1,6 @@
-import React from "react";
 import { useLsmTranslation } from "react-lsm";
 import ScreenWrapper from "../ui/ScreenWrapper";
-import {
-	useGetTrainings,
-} from "../../features/service-hooks/useTrainingService";
+import { useGetTrainings } from "../../features/service-hooks/useTrainingService";
 import { MagicIconButton, MagicTable } from "../ui";
 import NoDataScreen from "../ui/NoDataScreen";
 import { Training } from "../../types/app-types";
@@ -18,7 +15,7 @@ const TrainingsScreen = () => {
 	const list = data?.data;
 	const columns = [
 		{
-			element: "name",
+			element: "description",
 			selector: (training: Training) => (
 				<span className="font-semibold text-md">{training.name}</span>
 			),
@@ -73,7 +70,7 @@ const TrainingsScreen = () => {
 		<ScreenWrapper title={translate("trainings")}>
 			{list?.length ? (
 				<MagicTable<Training>
-					columns={columns}
+					columns={columns as any}
 					data={list as []}
 					selectionMode="none"
 					isStriped

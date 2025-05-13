@@ -15,10 +15,8 @@ const ProficiencyList = () => {
 	const { translate } = useLsmTranslation();
 	const { data, refetch, isLoading: isFetching } = useGetProficiencies();
 
-	const { mutateAsync: toggleStatus, isPending: isToggleStatusPending } =
-		useToggleStatusProficiency();
 	const {
-		mutateAsync: updateDescription,
+		mutateAsync: onUpdateDescription,
 		isPending: isUpdateDescriptionPending,
 	} = useUpdateProficiency();
 	const { mutateAsync: updateProficiency, isPending: isAddProficiencyPending } =
@@ -50,17 +48,15 @@ const ProficiencyList = () => {
 							label={description}
 							isActive={isActive}
 							createdAt={createdAt}
-							disableData={{
-								isPending: isToggleStatusPending,
-								toggleStatus: async (id) => {
-									await toggleStatus(id);
-									refetch();
-								},
-							}}
+							useToggleStatus={useToggleStatusProficiency as any}
+							refetch={refetch as any}
 							updateData={{
 								isPending: isUpdateDescriptionPending,
 								updateLabel: async (id, newDescription) => {
-									await updateDescription({ id, description: newDescription });
+									await onUpdateDescription({
+										id,
+										description: newDescription,
+									});
 									refetch();
 								},
 							}}

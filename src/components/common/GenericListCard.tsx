@@ -2,7 +2,7 @@ import { Card, CardFooter, CardHeader, Divider } from "@heroui/react";
 import React, { FC } from "react";
 import { MagicIconButton, MagicInput } from "../ui";
 import { useLsmTranslation } from "react-lsm";
-import { CircleX, Pencil, Save } from "lucide-react";
+import { CalendarDays, CircleX, Pencil, Save } from "lucide-react";
 import ToggleStatusButton from "./ToggleStatusButton";
 import { format } from "date-fns";
 type Props = {
@@ -10,10 +10,11 @@ type Props = {
 	label: string;
 	isActive: boolean;
 	createdAt: string;
-	disableData: {
+	useToggleStatus: () => {
+		mutateAsync: (id: number) => Promise<void>;
 		isPending: boolean;
-		toggleStatus: (id: number) => Promise<void>;
 	};
+	refetch: () => Promise<void>;
 	updateData?: {
 		isPending: boolean;
 		updateLabel: (id: number, newLabel: string) => Promise<void>;
@@ -24,7 +25,8 @@ const GenericListCard: FC<Props> = ({
 	label,
 	isActive,
 	createdAt,
-	disableData,
+	useToggleStatus,
+	refetch,
 	updateData,
 }) => {
 	const { translate } = useLsmTranslation();
@@ -35,6 +37,9 @@ const GenericListCard: FC<Props> = ({
 		isEditing: false,
 		newDescription: "",
 	});
+
+	const { mutateAsync: onToggleStatus, isPending: isToggleStatusPending } =
+		useToggleStatus();
 
 	return (
 		<Card className="min-w-[300px]" shadow="sm">
@@ -103,19 +108,21 @@ const GenericListCard: FC<Props> = ({
 			</CardHeader>
 			<Divider />
 			<CardFooter className="flex flex-row gap-2 justify-between items-center">
-				<p className="text-sm text-foreground-500">
-					{translate("addedAt", {
-						replace: {
-							values: { date: format(createdAt, "dd-MM-yyyy") },
-						},
-					})}
-				</p>
+				<div className="text-sm text-foreground-500 flex flex-row gap-2">
+					<CalendarDays size={18} />
+					{format(createdAt, "dd-MM-yyyy")}
+				</div>
 				<div className="flex gap-2 items-center">
 					<ToggleStatusButton
-						isLoading={disableData?.isPending}
+						isLoading={isToggleStatusPending}
 						isActive={isActive}
 						onPress={async () => {
-							await disableData?.toggleStatus(id);
+							setEditData((prev) => ({
+								...prev,
+								isEditing: false,
+							}));
+							await onToggleStatus(id);
+							await refetch();
 						}}
 					/>
 					{editData.isEditing ? (

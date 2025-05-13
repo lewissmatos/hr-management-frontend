@@ -13,7 +13,9 @@ const ToggleStatusButton: FC<Props> = ({ isActive, isLoading, onPress }) => {
 	return (
 		<MagicIconButton
 			tooltipProps={{
-				content: isActive ? translate("disable") : translate("enable"),
+				content: isActive
+					? translate("common.disable")
+					: translate("common.enable"),
 				color: isActive ? "danger" : "success",
 			}}
 			size="sm"

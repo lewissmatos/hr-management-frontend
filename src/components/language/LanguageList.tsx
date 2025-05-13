@@ -13,9 +13,7 @@ import BasicInputEntityAdder from "../common/BasicInputEntityAdder";
 const LanguageList = () => {
 	const { translate } = useLsmTranslation();
 	const { data, refetch, isLoading: isFetching } = useGetLanguages();
-	const { mutateAsync: toggleStatus, isPending: isToggleStatusPending } =
-		useToggleStatusLanguage();
-	const { mutateAsync: updateName, isPending: isUpdateNamePending } =
+	const { mutateAsync: onUpdateName, isPending: isUpdateNamePending } =
 		useUpdateLanguage();
 	const { mutateAsync: addLanguage, isPending: isAddingLanguage } =
 		useAddLanguage();
@@ -49,17 +47,12 @@ const LanguageList = () => {
 							updateData={{
 								isPending: isUpdateNamePending,
 								updateLabel: async (id, newName) => {
-									await updateName({ id, name: newName });
+									await onUpdateName({ id, name: newName });
 									await refetch();
 								},
 							}}
-							disableData={{
-								isPending: isToggleStatusPending,
-								toggleStatus: async (id) => {
-									await toggleStatus(id);
-									refetch();
-								},
-							}}
+							useToggleStatus={useToggleStatusLanguage as any}
+							refetch={refetch as any}
 						/>
 					))}
 				</div>
