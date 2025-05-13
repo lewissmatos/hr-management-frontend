@@ -1,6 +1,13 @@
 import ScreenWrapper from "../ui/ScreenWrapper";
 import { useLsmTranslation } from "react-lsm";
-import { Button, Checkbox, Form, SelectItem } from "@heroui/react";
+import {
+	Autocomplete,
+	AutocompleteItem,
+	Button,
+	Checkbox,
+	Form,
+	SelectItem,
+} from "@heroui/react";
 import { useForm } from "react-hook-form";
 import { Departments, Employee } from "../../types/app-types";
 import { useNavigate, useParams } from "react-router-dom";
@@ -14,8 +21,9 @@ import { Save } from "lucide-react";
 import NoDataScreen from "../ui/NoDataScreen";
 import { format, parseISO } from "date-fns";
 import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetCandidates } from "../../features/service-hooks/useCandidateService";
+import useDebounce from "../../hooks/useDebounce";
 
 const ManageEmployeeScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -35,6 +43,12 @@ const ManageEmployeeScreen = () => {
 		defaultValues: employee
 			? {
 					name: employee?.name,
+					cedula: employee?.cedula,
+					startDate: format(employee?.startDate || new Date(), "yyyy-MM-dd"),
+					jobPosition: employee?.jobPosition,
+					department: employee?.department,
+					salary: employee?.salary,
+					candidateBackground: employee?.candidateBackground || null,
 			  }
 			: undefined,
 	});
@@ -42,9 +56,36 @@ const ManageEmployeeScreen = () => {
 	const [hasCandidateBackground, setHasCandidateBackground] = useState(
 		Boolean(employee?.candidateBackground)
 	);
-	const { data: jobPositionsData } = useGetJobPositions();
-	const { data: candidatesData } = useGetCandidates();
 
+	const {
+		data: jobPositionsData,
+		setFilters: setJobPositionsFilters,
+		isFetching: isFetchingJobPositions,
+	} = useGetJobPositions();
+	const [
+		debouncedJobPositionSearchInput,
+		jobPositionSearchInput,
+		setJobPositionSearchInput,
+	] = useDebounce(500, employee?.jobPosition?.name || "");
+
+	useEffect(() => {
+		setJobPositionsFilters({ name: debouncedJobPositionSearchInput });
+	}, [debouncedJobPositionSearchInput, setJobPositionsFilters]);
+
+	const {
+		data: candidatesData,
+		setFilters: setCandidatesFilters,
+		isFetching: isFetchingCandidates,
+	} = useGetCandidates();
+	const [
+		debouncedCandidateSearchInput,
+		candidateSearchInput,
+		setCandidateSearchInput,
+	] = useDebounce(500, employee?.candidateBackground?.name || "");
+
+	useEffect(() => {
+		setCandidatesFilters({ name: debouncedCandidateSearchInput });
+	}, [debouncedCandidateSearchInput, setCandidatesFilters]);
 	const isEditing = Boolean(id);
 	const onSubmit = async (data: Partial<Employee>) => {
 		try {
@@ -76,7 +117,7 @@ const ManageEmployeeScreen = () => {
 			title={translate(`employeeDetailsScreen.${isEditing ? "manage" : "add"}`)}
 		>
 			<Form
-				className="flex flex-col gap-4  max-w-[40%]"
+				className="flex flex-col gap-4 w-2/5"
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<MagicInput
@@ -109,21 +150,34 @@ const ManageEmployeeScreen = () => {
 						);
 					}}
 				/>
-				<MagicSelect
+				<Autocomplete
 					label={translate("jobPosition")}
 					className="w-full"
-					{...register("jobPosition", { required: true })}
-					key={employee?.jobPosition?.id}
-					defaultSelectedKeys={
-						employee?.jobPosition.id ? [employee.jobPosition.id] : undefined
-					}
+					onSelectionChange={(selectedKey) => {
+						if (!selectedKey) return;
+						const jobPosition = jobPositionsData?.data.find(
+							(position) => position.id === Number(selectedKey)
+						);
+						if (jobPosition) {
+							setValue("jobPosition", jobPosition);
+						}
+					}}
+					defaultSelectedKey={employee?.jobPosition?.id}
+					key={employee?.jobPosition?.id || "no-job-position"}
+					isLoading={isFetchingJobPositions}
+					inputValue={jobPositionSearchInput}
+					onInputChange={(value) => {
+						setJobPositionSearchInput(value);
+					}}
 				>
 					{
 						jobPositionsData?.data.map((position) => (
-							<SelectItem key={position.id}>{position.name}</SelectItem>
+							<AutocompleteItem key={position.id}>
+								{position.name}
+							</AutocompleteItem>
 						)) as any
 					}
-				</MagicSelect>
+				</Autocomplete>
 				<MagicSelect
 					label={translate("department")}
 					className="w-full"
@@ -153,25 +207,33 @@ const ManageEmployeeScreen = () => {
 					>
 						{translate("hasCandidateBackground")}
 					</Checkbox>
-
-					<MagicSelect
-						isDisabled={!hasCandidateBackground}
+					<Autocomplete
 						label={translate("candidateBackground")}
 						className="w-full"
-						{...register("candidateBackground", { required: true })}
-						key={employee?.candidateBackground?.id}
-						defaultSelectedKeys={
-							employee?.candidateBackground.id
-								? [employee.candidateBackground.id]
-								: undefined
-						}
+						key={employee?.jobPosition?.id}
+						onSelectionChange={(selectedKeys) => {
+							if (!selectedKeys) return;
+							console.log(selectedKeys);
+							const selectedCandidate = candidatesData?.data.find(
+								(candidate) => candidate.id === selectedKeys[0]
+							);
+							if (selectedCandidate) {
+								setValue("candidateBackground", selectedCandidate);
+							}
+						}}
+						isDisabled={!hasCandidateBackground}
+						isLoading={isFetchingCandidates}
+						inputValue={candidateSearchInput}
+						onInputChange={(value) => setCandidateSearchInput(value)}
 					>
 						{
-							candidatesData?.data.map((candidate) => (
-								<SelectItem key={candidate.id}>{candidate.name}</SelectItem>
+							candidatesData?.data.map((position) => (
+								<AutocompleteItem key={position.id}>
+									{position.name}
+								</AutocompleteItem>
 							)) as any
 						}
-					</MagicSelect>
+					</Autocomplete>
 				</div>
 				<div className="flex justify-end w-full">
 					<Button

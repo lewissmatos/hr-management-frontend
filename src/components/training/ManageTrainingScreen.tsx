@@ -70,7 +70,7 @@ const ManageTrainingScreen = () => {
 			title={translate(`trainingDetailsScreen.${isEditing ? "manage" : "add"}`)}
 		>
 			<Form
-				className="flex flex-col gap-4  max-w-[40%]"
+				className="flex flex-col gap-4 w-2/5"
 				onSubmit={handleSubmit(onSubmit)}
 			>
 				<MagicInput

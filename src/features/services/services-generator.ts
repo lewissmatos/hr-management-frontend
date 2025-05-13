@@ -4,8 +4,10 @@ import toast from "react-hot-toast";
 import { AxiosResponse } from "axios";
 
 export const serviceGenerator = <T>(entity: string) => {
-	const onGet = async () => {
-		return (await axiosInstance.get<ApiResponse<T[]>>(`/${entity}`)).data;
+	const onGet = async (filters?: Record<string, any>) => {
+		const parsedParams = new URLSearchParams(filters).toString();
+		const url = parsedParams ? `/${entity}?${parsedParams}` : `/${entity}`;
+		return (await axiosInstance.get<ApiResponse<T[]>>(url)).data;
 	};
 	const onGetSingle = async (id: number) => {
 		return (await axiosInstance.get<ApiResponse<T>>(`/${entity}/${id}`)).data;

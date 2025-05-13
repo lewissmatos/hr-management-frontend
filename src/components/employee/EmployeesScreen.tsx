@@ -6,20 +6,66 @@ import NoDataScreen from "../ui/NoDataScreen";
 import { Employee } from "../../types/app-types";
 import { Pencil } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { format } from "date-fns";
+import { formatCurrency } from "../../utils/format.utils";
 
 const EmployeesScreen = () => {
 	const { translate } = useLsmTranslation();
 	const navigate = useNavigate();
 	const { data, isFetching } = useGetEmployees();
 	const list = data?.data;
+	// 	candidateBackground: Candidate;
 	const columns = [
 		{
-			element: "description",
+			element: "cedula",
 			selector: (employee: Employee) => (
-				<span className="font-semibold text-md">{employee.name}</span>
+				<span className="font-semibold text-md">{employee.cedula}</span>
 			),
 		},
-
+		{
+			element: "name",
+			selector: (employee: Employee) => (
+				<span className="text-md">{employee.name}</span>
+			),
+		},
+		{
+			element: "startDate",
+			selector: (employee: Employee) => (
+				<span className=" text-md">
+					{format(employee.startDate, "dd-MM-yyyy")}
+				</span>
+			),
+		},
+		{
+			element: "jobPosition",
+			selector: (employee: Employee) => (
+				<span className="text-md">{employee.jobPosition.name}</span>
+			),
+		},
+		{
+			element: "department",
+			selector: (employee: Employee) => (
+				<span className="text-md">{employee.department}</span>
+			),
+		},
+		{
+			element: "salary",
+			selector: (employee: Employee) => (
+				<span className="text-md">
+					{formatCurrency(Number(employee.salary))}
+				</span>
+			),
+		},
+		{
+			element: "hasCandidateBackground",
+			selector: (employee: Employee) => (
+				<span className="text-md">
+					{employee.candidateBackground
+						? translate("common.yes")
+						: translate("common.no")}
+				</span>
+			),
+		},
 		{
 			element: "common.actions",
 			selector: (employee: Employee) => (
