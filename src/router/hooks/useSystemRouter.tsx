@@ -5,6 +5,7 @@ import {
 	Languages,
 	Rows4,
 	Sparkles,
+	SquareUserRound,
 	User,
 } from "lucide-react";
 import { FC } from "react";
@@ -16,6 +17,8 @@ import ManageTrainingScreen from "../../components/training/ManageTrainingScreen
 import CandidatesScreen from "../../components/candidate/CandidatesScreen";
 import JobPositionsScreen from "../../components/job-position/JobPositionsScreen";
 import ManageJobPositionScreen from "../../components/job-position/ManageJobPositionScreen";
+import ManageEmployeeScreen from "../../components/employee/ManageEmployeeScreen";
+import EmployeesScreen from "../../components/employee/EmployeesScreen";
 export type ItemGrouper = {
 	label: string;
 	Icon: FC<React.SVGProps<SVGSVGElement>>;
@@ -81,6 +84,31 @@ const useSystemRouter = () => {
 					label: translate("appDrawer.common.manage"),
 					path: "training/:id",
 					screen: <ManageTrainingScreen />,
+					Icon: (props) => <FileSliders {...props} />,
+					hideFromDrawer: true,
+				},
+			],
+		},
+		{
+			label: translate("employees"),
+			Icon: (props) => <SquareUserRound {...props} />,
+			childrenPaths: [
+				{
+					label: translate("appDrawer.common.list"),
+					path: "employees",
+					screen: <EmployeesScreen />,
+					Icon: (props) => <Rows4 {...props} />,
+				},
+				{
+					label: translate("appDrawer.common.manage"),
+					path: "employee",
+					screen: <ManageEmployeeScreen />,
+					Icon: (props) => <FileSliders {...props} />,
+				},
+				{
+					label: translate("appDrawer.common.manage"),
+					path: "employee/:id",
+					screen: <ManageEmployeeScreen />,
 					Icon: (props) => <FileSliders {...props} />,
 					hideFromDrawer: true,
 				},

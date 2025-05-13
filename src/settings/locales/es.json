@@ -44,6 +44,9 @@
 	},
 	"name": "Nombre",
 	"description": "Descripción",
+	"cedula": "Cédula",
+	"department": "Departamento",
+	"salary": "Salario",
 	"level": "Nivel",
 	"institution": "Institución",
 	"startDate": "Fecha de inicio",
@@ -58,9 +61,13 @@
 	"candidate": "Candidato",
 	"jobPositions": "Puestos de trabajo",
 	"jobPosition": "Puesto de trabajo",
+	"employees": "Empleados",
+	"employee": "Empleado",
 	"riskLevel": "Nivel de riesgo",
 	"minSalary": "Salario mínimo",
 	"maxSalary": "Salario máximo",
+	"candidateBackground": "Perfil de candidato",
+	"hasCandidateBackground": "¿Ha sido candidato?",
 	"loginScreen": {
 		"title": "Iniciar sesión",
 		"footer": "© {year} Gestión de Recursos Humanos. Todos los derechos reservados.",
@@ -79,5 +86,10 @@
 	"jobPositionDetailsScreen": {
 		"manage": "Manejar Puesto de Trabajo",
 		"add": "Agregar Puesto de Trabajo"
-	}
+	},
+	"employeeDetailsScreen": {
+		"manage": "Manejar Empleado",
+		"add": "Agregar Empleado"
+	},
+	"riskLevelInfo": "Nivel de riesgo: {riskLevel}"
 }

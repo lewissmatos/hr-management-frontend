@@ -78,7 +78,7 @@ const TrainingsScreen = () => {
 			) : (
 				<NoDataScreen
 					isFetching={isFetching}
-					redirectPath="/add-training"
+					redirectPath="/training"
 					elementName="training"
 				/>
 			)}

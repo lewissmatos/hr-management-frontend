@@ -5,6 +5,7 @@ import {
 	CardHeader,
 	Chip,
 	Divider,
+	Tooltip,
 } from "@heroui/react";
 import React, { FC } from "react";
 import { useLsmTranslation } from "react-lsm";
@@ -41,17 +42,24 @@ const JobPositionCard: FC<Props> = ({ position, refetch }) => {
 		<Card className="min-w-[300px]" shadow="sm">
 			<CardHeader className="flex gap-3">
 				<div className="flex gap-2 flex-row justify-start items-center w-full">
-					<Chip
-						variant="bordered"
-						color={riskLevelColorClass as unknown as any}
-						size="sm"
-						className="bg-transparent`"
-						radius="sm"
+					<Tooltip
+						color={riskLevelColorClass as any}
+						content={translate("riskLevelInfo", {
+							replace: { values: { riskLevel: position.riskLevel } },
+						})}
 					>
-						<TriangleAlert
-							className={`text-${riskLevelColorClass}-500 w-4 h-4`}
-						/>
-					</Chip>
+						<Chip
+							variant="bordered"
+							color={riskLevelColorClass as unknown as any}
+							size="sm"
+							className="bg-transparent`"
+							radius="sm"
+						>
+							<TriangleAlert
+								className={`text-${riskLevelColorClass}-500 w-4 h-4`}
+							/>
+						</Chip>
+					</Tooltip>
 					<p
 						className={`text-md font-semibold ${
 							!position?.isAvailable ? "text-foreground-500 opacity-60" : ""
