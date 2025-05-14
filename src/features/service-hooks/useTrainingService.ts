@@ -15,11 +15,14 @@ export const useAddTraining = () => {
 	});
 };
 
-export const useGetTrainings = () => {
-	return useQuery({
-		queryKey: ["get-trainings"],
-		queryFn: onGetTrainings,
-	});
+export const useGetTrainings = (filters?: Record<string, any>) => {
+	return {
+		...useQuery({
+			queryKey: ["get-trainings", filters],
+			queryFn: () => onGetTrainings(filters),
+		}),
+		filters,
+	};
 };
 
 export const useGetTraining = (id: number) => {

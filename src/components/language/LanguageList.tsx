@@ -9,12 +9,26 @@ import {
 } from "../../features/service-hooks/useLanguageService";
 import GenericListCard from "../common/GenericListCard";
 import BasicInputEntityAdder from "../common/BasicInputEntityAdder";
+import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInput";
+import GenericBooleanQueryHandler from "../common-filters/GenericBooleanQueryHandler";
+import { useState } from "react";
 
 const LanguageList = () => {
 	const { translate } = useLsmTranslation();
-	const { data, refetch, isLoading: isFetching } = useGetLanguages();
+
+	const [filters, setFilters] = useState({
+		description: "",
+		isActive: true,
+	});
+	const {
+		data,
+		refetch,
+		isLoading: isFetching,
+	} = useGetLanguages({ ...filters });
+
 	const { mutateAsync: onUpdateName, isPending: isUpdateNamePending } =
 		useUpdateLanguage();
+
 	const { mutateAsync: addLanguage, isPending: isAddingLanguage } =
 		useAddLanguage();
 
@@ -35,6 +49,22 @@ const LanguageList = () => {
 				/>
 			}
 		>
+			<div className="flex flex-row gap-4">
+				<GenericSearchByQueryInput
+					properties={["name"]}
+					isLoading={isFetching}
+					setQuery={(query) => {
+						setFilters((prev) => ({
+							...prev,
+							name: query,
+						}));
+					}}
+				/>
+				<GenericBooleanQueryHandler
+					queryPropName="isActive"
+					setFilters={setFilters as any}
+				/>
+			</div>
 			{list?.length ? (
 				<div className="flex flex-wrap gap-4 overflow-y-auto py-4 px-2">
 					{list.map(({ name, isActive, id, createdAt }) => (

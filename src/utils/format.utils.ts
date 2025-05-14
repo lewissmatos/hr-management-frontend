@@ -6,4 +6,11 @@ const formatCurrency = (value: number): string => {
 	return formatter.format(value);
 };
 
-export { formatCurrency };
+const formatList = (vals: string[], type = "disjunction") => {
+	return new Intl.ListFormat("es", {
+		style: "long",
+		type: type as "conjunction" | "disjunction",
+	}).format(vals);
+};
+
+export { formatCurrency, formatList };

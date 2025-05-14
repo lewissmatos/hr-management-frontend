@@ -7,9 +7,9 @@ import { Dispatch, useEffect, useState } from "react";
  * @returns The debounced value.
  */
 const useDebounce = (
-	delay: number,
+	delay = 500,
 	defaultInputValue?: string
-): [string, string, Dispatch<string>] => {
+): [string, Dispatch<string>, string] => {
 	const [debouncedValue, setDebouncedValue] = useState("");
 	const [input, setInput] = useState(defaultInputValue || "");
 
@@ -28,7 +28,7 @@ const useDebounce = (
 			setInput(defaultInputValue);
 		}
 	}, [defaultInputValue]);
-	return [debouncedValue, input, setInput];
+	return [debouncedValue, setInput, input];
 };
 
 export default useDebounce;

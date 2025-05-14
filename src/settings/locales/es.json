@@ -2,6 +2,7 @@
 	"APP_NAME": "Gestión de Recursos Humanos",
 	"DEVELOPED_BY": "Desarrollado por Lewis Matos",
 	"common": {
+		"searchBy": "Buscar por {field}",
 		"yes": "Sí",
 		"no": "No",
 		"ok": "Aceptar",
@@ -53,7 +54,12 @@
 	"endDate": "Fecha de finalización",
 	"training": "Capacitación",
 	"addedAt": "Agregado en {date}",
-
+	"status": "Estado",
+	"active": "Activo",
+	"inactive": "Inactivo",
+	"both": "Ambos",
+	"available": "Disponible",
+	"unavailable": "No disponible",
 	"proficiencies": "Competencias",
 	"languages": "Idiomas",
 	"trainings": "Capacitaciones",
@@ -91,5 +97,7 @@
 		"manage": "Manejar Empleado",
 		"add": "Agregar Empleado"
 	},
-	"riskLevelInfo": "Nivel de riesgo: {riskLevel}"
+	"riskLevelInfo": "Nivel de riesgo: {riskLevel}",
+	"startSalary": "Inicio de rango salarial",
+	"endSalary": "Fin de rango salarial"
 }

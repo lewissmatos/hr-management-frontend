@@ -14,11 +14,14 @@ export const useAddLanguage = () => {
 	});
 };
 
-export const useGetLanguages = () => {
-	return useQuery({
-		queryKey: ["get-languages"],
-		queryFn: onGetLanguages,
-	});
+export const useGetLanguages = (filters?: Record<string, any>) => {
+	return {
+		...useQuery({
+			queryKey: ["get-languages", filters],
+			queryFn: () => onGetLanguages(filters),
+		}),
+		filters,
+	};
 };
 
 export const useUpdateLanguage = () => {

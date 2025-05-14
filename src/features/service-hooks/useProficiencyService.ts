@@ -19,11 +19,14 @@ export const useAddProficiency = () => {
 	});
 };
 
-export const useGetProficiencies = () => {
-	return useQuery({
-		queryKey: ["get-proficiencies"],
-		queryFn: onGetProficiencies,
-	});
+export const useGetProficiencies = (filters?: Record<string, any> = {}) => {
+	return {
+		...useQuery({
+			queryKey: ["get-proficiencies", filters],
+			queryFn: () => onGetProficiencies(filters),
+		}),
+		filters,
+	};
 };
 
 export const useUpdateProficiency = () => {

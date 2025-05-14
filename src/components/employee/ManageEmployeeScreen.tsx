@@ -21,7 +21,7 @@ import { Save } from "lucide-react";
 import NoDataScreen from "../ui/NoDataScreen";
 import { format, parseISO } from "date-fns";
 import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGetCandidates } from "../../features/service-hooks/useCandidateService";
 import useDebounce from "../../hooks/useDebounce";
 
@@ -37,8 +37,10 @@ const ManageEmployeeScreen = () => {
 	const { mutateAsync: onAdd, isPending: isAddPending } = useAddEmployee();
 	const { mutateAsync: onUpdate, isPending: isUpdatePending } =
 		useUpdateEmployee();
+
 	const employee =
 		isSuccess && employeeData?.data && Boolean(id) ? employeeData?.data : null;
+
 	const { register, handleSubmit, setValue } = useForm<Partial<Employee>>({
 		defaultValues: employee
 			? {
@@ -57,35 +59,23 @@ const ManageEmployeeScreen = () => {
 		Boolean(employee?.candidateBackground)
 	);
 
-	const {
-		data: jobPositionsData,
-		setFilters: setJobPositionsFilters,
-		isFetching: isFetchingJobPositions,
-	} = useGetJobPositions();
 	const [
 		debouncedJobPositionSearchInput,
-		jobPositionSearchInput,
 		setJobPositionSearchInput,
+		jobPositionSearchInput,
 	] = useDebounce(500, employee?.jobPosition?.name || "");
 
-	useEffect(() => {
-		setJobPositionsFilters({ name: debouncedJobPositionSearchInput });
-	}, [debouncedJobPositionSearchInput, setJobPositionsFilters]);
+	const { data: jobPositionsData, isFetching: isFetchingJobPositions } =
+		useGetJobPositions({ name: debouncedJobPositionSearchInput });
 
-	const {
-		data: candidatesData,
-		setFilters: setCandidatesFilters,
-		isFetching: isFetchingCandidates,
-	} = useGetCandidates();
 	const [
 		debouncedCandidateSearchInput,
-		candidateSearchInput,
 		setCandidateSearchInput,
+		candidateSearchInput,
 	] = useDebounce(500, employee?.candidateBackground?.name || "");
+	const { data: candidatesData, isFetching: isFetchingCandidates } =
+		useGetCandidates({ name: debouncedCandidateSearchInput });
 
-	useEffect(() => {
-		setCandidatesFilters({ name: debouncedCandidateSearchInput });
-	}, [debouncedCandidateSearchInput, setCandidatesFilters]);
 	const isEditing = Boolean(id);
 	const onSubmit = async (data: Partial<Employee>) => {
 		try {

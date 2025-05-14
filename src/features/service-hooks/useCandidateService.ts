@@ -2,7 +2,6 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import getQueryClient from "./tanstackQueryClient";
 import { serviceGenerator } from "../services/services-generator";
 import { Candidate } from "../../types/app-types";
-import { useState } from "react";
 const {
 	onGet: onGetCandidates,
 	onGetSingle: onGetCandidate,
@@ -21,14 +20,12 @@ export const useAddCandidate = () => {
 	});
 };
 
-export const useGetCandidates = () => {
-	const [filters, setFilters] = useState<Record<string, any>>({});
+export const useGetCandidates = (filters?: Record<string, any>) => {
 	return {
 		...useQuery({
 			queryKey: ["get-candidates", filters],
 			queryFn: () => onGetCandidates(filters),
 		}),
-		setFilters,
 		filters,
 	};
 };

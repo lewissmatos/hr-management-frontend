@@ -5,7 +5,7 @@ import { AxiosResponse } from "axios";
 
 export const serviceGenerator = <T>(entity: string) => {
 	const onGet = async (filters?: Record<string, any>) => {
-		const parsedParams = new URLSearchParams(filters).toString();
+		const parsedParams = filters ? new URLSearchParams(filters).toString() : "";
 		const url = parsedParams ? `/${entity}?${parsedParams}` : `/${entity}`;
 		return (await axiosInstance.get<ApiResponse<T[]>>(url)).data;
 	};

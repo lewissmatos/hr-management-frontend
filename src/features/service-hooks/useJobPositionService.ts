@@ -3,7 +3,6 @@ import { serviceGenerator } from "../services/services-generator";
 import { JobPosition } from "../../types/app-types";
 import axiosInstance from "../services/axios-instance";
 import toast from "react-hot-toast";
-import { useState } from "react";
 
 const {
 	onGet: onGetJobPositions,
@@ -18,14 +17,12 @@ export const useAddJobPosition = () => {
 	});
 };
 
-export const useGetJobPositions = () => {
-	const [filters, setFilters] = useState<Record<string, any>>({});
+export const useGetJobPositions = (filters?: Record<string, any>) => {
 	return {
 		...useQuery({
 			queryKey: ["get-job-positions", filters],
 			queryFn: () => onGetJobPositions(filters),
 		}),
-		setFilters,
 		filters,
 	};
 };

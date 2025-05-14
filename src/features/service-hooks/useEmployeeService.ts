@@ -20,11 +20,14 @@ export const useAddEmployee = () => {
 	});
 };
 
-export const useGetEmployees = () => {
-	return useQuery({
-		queryKey: ["get-employees"],
-		queryFn: onGetEmployees,
-	});
+export const useGetEmployees = (filters?: Record<string, any>) => {
+	return {
+		...useQuery({
+			queryKey: ["get-employees", filters],
+			queryFn: () => onGetEmployees(filters),
+		}),
+		filters,
+	};
 };
 
 export const useGetEmployee = (id: number) => {
