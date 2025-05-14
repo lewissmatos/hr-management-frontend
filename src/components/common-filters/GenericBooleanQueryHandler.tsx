@@ -4,13 +4,10 @@ import { useLsmTranslation } from "react-lsm";
 import { SelectItem } from "@heroui/react";
 
 type Props = {
-	queryPropName?: string;
-	setFilters: (filters: Record<string, any>) => void;
+	label?: string;
+	setQuery: (filters: boolean[]) => void;
 };
-const GenericBooleanQueryHandler: FC<Props> = ({
-	queryPropName,
-	setFilters,
-}) => {
+const GenericBooleanQueryHandler: FC<Props> = ({ setQuery, label }) => {
 	const { translate } = useLsmTranslation();
 	const options = [
 		{ label: "active", value: "1" },
@@ -18,20 +15,15 @@ const GenericBooleanQueryHandler: FC<Props> = ({
 	];
 
 	const handleChange = (value: string | null) => {
-		console.log(value);
 		// eslint-disable-next-line no-unsafe-optional-chaining
 		const values = (value ? value?.split(",") : []).map((val) =>
 			Boolean(Number(val))
 		);
-		setFilters((prevFilters) => ({
-			...prevFilters,
-			[queryPropName as string]: values,
-		}));
-		console.log(values);
+		setQuery(values);
 	};
 	return (
 		<MagicSelect
-			label={translate("status")}
+			label={label}
 			className="w-4/12"
 			selectionMode="multiple"
 			onChange={(e) => {

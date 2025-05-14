@@ -16,9 +16,12 @@ import GenericBooleanQueryHandler from "../common-filters/GenericBooleanQueryHan
 const ProficiencyList = () => {
 	const { translate } = useLsmTranslation();
 
-	const [filters, setFilters] = useState({
+	const [filters, setFilters] = useState<{
+		description: string;
+		isActive: boolean[] | undefined;
+	}>({
 		description: "",
-		isActive: true,
+		isActive: [true, false],
 	});
 	const {
 		data,
@@ -63,8 +66,13 @@ const ProficiencyList = () => {
 					}}
 				/>
 				<GenericBooleanQueryHandler
-					queryPropName="isActive"
-					setFilters={setFilters as any}
+					label={translate("status")}
+					setQuery={(values) => {
+						setFilters((prev) => ({
+							...prev,
+							isActive: values,
+						}));
+					}}
 				/>
 			</div>
 			{list?.length ? (

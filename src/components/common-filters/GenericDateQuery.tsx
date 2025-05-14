@@ -10,6 +10,7 @@ type Props = {
 	paramName: string;
 	date: string;
 	setDebouncedDate: (date: string) => void;
+	className?: string;
 	isLoading?: boolean;
 };
 const GenericDateQuery: FC<Props> = ({
@@ -17,12 +18,13 @@ const GenericDateQuery: FC<Props> = ({
 	date,
 	setDebouncedDate,
 	isLoading,
+	className,
 }) => {
 	const { translate } = useLsmTranslation();
 	return (
 		<MagicDatePicker
 			label={translate(paramName)}
-			className="w-[300px]"
+			className={`w-[300px] ${className}`}
 			value={date ? parseDate(format(new Date(date), "yyyy-MM-dd")) : null}
 			onChange={(date) => {
 				setDebouncedDate(
