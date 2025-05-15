@@ -53,7 +53,6 @@ module.exports = {
 					layout: baseLayout,
 					colors: {
 						background: "#272727",
-						foreground: "#ffffff",
 						primary: {
 							...basePrimaryColors.primary,
 							foreground: "#ffffff",

@@ -4,7 +4,7 @@ import { MagicDatePicker, MagicIconButton } from "../ui";
 import { format, parseISO } from "date-fns";
 import { parseDate } from "@internationalized/date";
 import { CircleX } from "lucide-react";
-import { CircularProgress } from "@heroui/react";
+import { CircularProgress, Tooltip } from "@heroui/react";
 
 type Props = {
 	paramName: string;
@@ -39,19 +39,15 @@ const GenericDateQuery: FC<Props> = ({
 						color="primary"
 					/>
 				) : (
-					<MagicIconButton
-						size="sm"
-						variant="flat"
-						onPress={() => {
-							setDebouncedDate("");
-						}}
-						tooltipProps={{
-							content: translate("common.clear"),
-							color: "danger",
-						}}
-					>
-						<CircleX className="text-red-500" size={18} />
-					</MagicIconButton>
+					<Tooltip content={translate("common.clear")} color="danger">
+						<CircleX
+							onClick={() => {
+								setDebouncedDate("");
+							}}
+							className="text-red-500 cursor-pointer"
+							size={18}
+						/>
+					</Tooltip>
 				)
 			}
 		/>
