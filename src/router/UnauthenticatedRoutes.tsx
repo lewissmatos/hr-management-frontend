@@ -6,7 +6,9 @@ const UnauthenticatedRoutes = () => {
 		<Routes>
 			<Route path="/*" element={<Navigate to="/login" replace />} />
 			<Route path={`/login`} element={<LoginScreen />} />
-			<Route path={`/apply-jobs`} element={"Jobs"} />
+			<Route path={`/apply/jobs`} element={"Jobs"} />
+			<Route path={`/apply/me`} element={"Jobs"} />
+			<Route path={`/apply/me/:id`} element={"Jobs"} />
 		</Routes>
 	);
 };
