@@ -41,8 +41,10 @@ export enum JobPositionRiskLevels {
 
 type JobPosition = {
 	name: string;
+	description?: string;
 	riskLevel: JobPositionRiskLevels;
 	minSalary: number;
+	department: Departments;
 	maxSalary: number;
 	isAvailable: boolean;
 } & GlobalModel;
@@ -51,7 +53,7 @@ type WorkExperience = {
 	company: string;
 	startDate: string;
 	endDate: string;
-	jobPosition: JobPosition;
+	position: string;
 } & GlobalModel;
 
 export enum Departments {
@@ -75,13 +77,14 @@ type Employee = {
 type Candidate = {
 	cedula: string;
 	name: string;
+	password: string;
 	applyingJobPosition: JobPosition;
-	department: Departments;
+	spokenLanguages: Language[];
+	proficiencies: Proficiency[];
+	trainings: Training[];
+	workExperiences: WorkExperience[];
 	minExpectedSalary: number;
 	recommendedBy: Employee;
-	proficiencies: Proficiency[];
-	workExperiences: WorkExperience[];
-	spokenLanguages: Language[];
 	isActive: boolean;
 	isEmployee: boolean;
 } & GlobalModel;

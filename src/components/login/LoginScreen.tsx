@@ -1,28 +1,25 @@
 import { Button, Form } from "@heroui/react";
-import { MagicIconButton, MagicInput } from "../ui";
+import { MagicInput } from "../ui";
 import { useLsmTranslation } from "react-lsm";
 import "./login.scss";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginPayload } from "../../features/services/auth.service";
 import { useLoginService } from "../../features/service-hooks/useAuthService";
-import { useState } from "react";
-import { Eye, EyeClosed } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import PasswordInput from "../ui/PasswordInput";
 const LoginScreen = () => {
 	const { translate } = useLsmTranslation();
+	const navigate = useNavigate();
 	const { mutateAsync, isPending } = useLoginService();
 	const { register, handleSubmit } = useForm<LoginPayload>();
 	const onSubmit: SubmitHandler<LoginPayload> = async (data) => {
 		await mutateAsync(data);
 	};
-	const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-	const togglePasswordVisibility = () => {
-		setIsPasswordVisible((prev) => !prev);
-	};
 	return (
-		<div className="login-container flex flex-col justify-center w-screen h-screen">
+		<div className="app-dark login-container flex flex-col justify-center w-screen h-screen">
 			<div className="mx-auto max-w-[30%] flex flex-col gap-4 h-screen justify-between items-center py-10">
 				<div className="flex flex-col items-center justify-center gap-2">
-					<h4 className="font-semibold text-md text-foreground-200">
+					<h4 className="font-semibold text-lg text-foreground-500">
 						{"ISO - 715"}
 					</h4>
 				</div>
@@ -30,7 +27,9 @@ const LoginScreen = () => {
 					className="w-full flex flex-col gap-4"
 					onSubmit={handleSubmit(onSubmit)}
 				>
-					<h1 className="font-bold text-2xl mb-4">{translate("APP_NAME")}</h1>
+					<h1 className="font-bold text-2xl mb-4 text-foreground-700">
+						{translate("APP_NAME")}
+					</h1>
 					<small className="text-sm text-gray-400">
 						{translate("loginScreen.subtitle")}
 					</small>
@@ -43,35 +42,11 @@ const LoginScreen = () => {
 							minLength: 3,
 						})}
 					/>
-					<MagicInput
-						label={translate("loginScreen.password")}
-						className="w-full"
-						type={isPasswordVisible ? "text" : "password"}
-						{...register("password", {
+					<PasswordInput
+						{...(register("password", {
 							required: true,
 							minLength: 8,
-						})}
-						endContent={
-							<MagicIconButton
-								size="sm"
-								variant="light"
-								className="group hover:text-yellow-500 transition-all duration-200"
-								tooltipProps={{
-									content: translate(
-										isPasswordVisible
-											? "loginScreen.hidePassword"
-											: "loginScreen.showPassword"
-									),
-								}}
-								onPress={togglePasswordVisibility}
-							>
-								{!isPasswordVisible ? (
-									<Eye className="text-gray-400" />
-								) : (
-									<EyeClosed className="text-gray-400" />
-								)}
-							</MagicIconButton>
-						}
+						}) as any)}
 					/>
 					<Button
 						variant="solid"
@@ -84,6 +59,17 @@ const LoginScreen = () => {
 						{translate("loginScreen.loginButton")}
 					</Button>
 				</Form>
+				<div className="flex flex-col gap-2 items-center justify-center">
+					<small className="text-sm text-gray-300">
+						{translate("loginScreen.wrongScreenForCandidates")}
+					</small>
+					<small
+						className="text-md font-semibold text-foreground-600 underline cursor-pointer"
+						onClick={() => navigate("/apply/jobs")}
+					>
+						{translate("loginScreen.goToCandidatesScreen")}
+					</small>
+				</div>
 				<div className="flex flex-col gap-2 items-center justify-center">
 					<small className="text-sm text-gray-400">
 						{translate("loginScreen.footer", {

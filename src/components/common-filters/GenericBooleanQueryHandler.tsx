@@ -6,10 +6,18 @@ import { SelectItem } from "@heroui/react";
 type Props = {
 	label?: string;
 	setQuery: (filters: boolean[]) => void;
+	overrideOptions?: Array<{
+		label: string;
+		value: string;
+	}>;
 };
-const GenericBooleanQueryHandler: FC<Props> = ({ setQuery, label }) => {
+const GenericBooleanQueryHandler: FC<Props> = ({
+	setQuery,
+	label,
+	overrideOptions,
+}) => {
 	const { translate } = useLsmTranslation();
-	const options = [
+	const options = overrideOptions || [
 		{ label: "active", value: "1" },
 		{ label: "inactive", value: "0" },
 	];
@@ -24,7 +32,7 @@ const GenericBooleanQueryHandler: FC<Props> = ({ setQuery, label }) => {
 	return (
 		<MagicSelect
 			label={label}
-			className="w-4/12"
+			className="w-1/5"
 			selectionMode="multiple"
 			onChange={(e) => {
 				const { value } = e.target;

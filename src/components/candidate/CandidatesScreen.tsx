@@ -46,7 +46,9 @@ const CandidatesScreen = () => {
 			{
 				element: "department",
 				selector: (candidate: Candidate) => (
-					<span className=" text-md">{candidate.department.toString()}</span>
+					<span className=" text-md">
+						{candidate?.applyingJobPosition?.department.toString()}
+					</span>
 				),
 			},
 			{

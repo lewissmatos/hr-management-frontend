@@ -1,8 +1,12 @@
 import ScreenWrapper from "../ui/ScreenWrapper";
 import { useLsmTranslation } from "react-lsm";
-import { Button, Form, SelectItem } from "@heroui/react";
+import { Button, Form, SelectItem, Textarea } from "@heroui/react";
 import { useForm } from "react-hook-form";
-import { JobPosition, JobPositionRiskLevels } from "../../types/app-types";
+import {
+	Departments,
+	JobPosition,
+	JobPositionRiskLevels,
+} from "../../types/app-types";
 import { useNavigate, useParams } from "react-router-dom";
 import { MagicIconButton, MagicInput, MagicSelect } from "../ui";
 import {
@@ -12,6 +16,8 @@ import {
 } from "../../features/service-hooks/useJobPositionService";
 import { Ban, RefreshCcw, Save } from "lucide-react";
 import NoDataScreen from "../ui/NoDataScreen";
+
+const DESCRIPTION_MAX_LENGTH = 3100;
 
 const ManageJobPositionScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -74,7 +80,7 @@ const ManageJobPositionScreen = () => {
 	return (
 		<ScreenWrapper
 			title={translate(
-				`jobPositionDetailsScreen.${isEditing ? "manage" : "add"}`
+				`manageJobPositionScreen.${isEditing ? "manage" : "add"}`
 			)}
 		>
 			<Form
@@ -111,19 +117,34 @@ const ManageJobPositionScreen = () => {
 						</MagicIconButton>
 					)}
 				</div>
-				<MagicSelect
-					label={translate("riskLevel")}
-					className="w-full"
-					{...register("riskLevel", { required: true })}
-					key={jobPosition?.riskLevel}
-					defaultSelectedKeys={
-						jobPosition?.riskLevel ? [jobPosition.riskLevel] : undefined
-					}
-				>
-					{Object.values(JobPositionRiskLevels).map((riskLevel) => (
-						<SelectItem key={riskLevel}>{riskLevel}</SelectItem>
-					))}
-				</MagicSelect>
+				<div className="w-full flex flex-row gap-2">
+					<MagicSelect
+						label={translate("riskLevel")}
+						className="w-full"
+						{...register("riskLevel", { required: true })}
+						key={jobPosition?.riskLevel}
+						defaultSelectedKeys={
+							jobPosition?.riskLevel ? [jobPosition.riskLevel] : undefined
+						}
+					>
+						{Object.values(JobPositionRiskLevels).map((riskLevel) => (
+							<SelectItem key={riskLevel}>{riskLevel}</SelectItem>
+						))}
+					</MagicSelect>
+					<MagicSelect
+						label={translate("department")}
+						className="w-full"
+						{...register("department", { required: true })}
+						key={jobPosition?.department}
+						defaultSelectedKeys={
+							jobPosition?.department ? [jobPosition.department] : undefined
+						}
+					>
+						{Object.values(Departments).map((department) => (
+							<SelectItem key={department}>{department}</SelectItem>
+						))}
+					</MagicSelect>
+				</div>
 				<div className="w-full flex flex-row gap-2">
 					<MagicInput
 						{...register("minSalary", { required: true })}
@@ -139,6 +160,29 @@ const ManageJobPositionScreen = () => {
 						type="number"
 						defaultValue={jobPosition?.maxSalary?.toString()}
 					/>
+				</div>
+				<Textarea
+					{...register("description", {
+						required: true,
+						maxLength: DESCRIPTION_MAX_LENGTH,
+					})}
+					label={translate("description")}
+					isRequired
+					className="w-full"
+					minRows={6}
+					maxLength={DESCRIPTION_MAX_LENGTH}
+					defaultValue={jobPosition?.description}
+				/>
+				<div className="w-full flex flex-row items-center justify-end  text-foreground-500 ">
+					<p className="text-sm">
+						{(watch("description") || "")?.length > DESCRIPTION_MAX_LENGTH
+							? translate("common.maxLengthExceeded", {
+									replace: { values: { maxLength: DESCRIPTION_MAX_LENGTH } },
+							  })
+							: `${
+									watch("description")?.length || 0
+							  } / ${DESCRIPTION_MAX_LENGTH}`}
+					</p>
 				</div>
 				<div className="flex justify-end w-full">
 					<Button

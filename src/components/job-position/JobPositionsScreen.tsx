@@ -8,6 +8,9 @@ import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInp
 import { CircleDollarSign } from "lucide-react";
 import useDebounce from "../../hooks/useDebounce";
 import GenericBooleanQueryHandler from "../common-filters/GenericBooleanQueryHandler";
+import { SelectItem } from "@heroui/react";
+import { MagicSelect } from "../ui";
+import { JobPositionRiskLevels } from "../../types/app-types";
 
 const JobPositionsScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -15,12 +18,18 @@ const JobPositionsScreen = () => {
 	const [debouncedMinSalaryInput, setMinSalaryInput] = useDebounce();
 	const [debouncedMaxSalaryInput, setMaxSalaryInput] = useDebounce();
 	const [availabilityQuery, setAvailabilityQuery] = useState([true, false]);
+	const [riskLevelsQuery, setRiskLevelsQuery] = useState([
+		JobPositionRiskLevels.LOW,
+		JobPositionRiskLevels.MEDIUM,
+		JobPositionRiskLevels.HIGH,
+	]);
 
 	const { data, isFetching, refetch } = useGetJobPositions({
 		name: debouncedNameInput,
 		minSalary: debouncedMinSalaryInput,
 		maxSalary: debouncedMaxSalaryInput,
-		isActive: availabilityQuery,
+		isAvailable: availabilityQuery,
+		riskLevels: riskLevelsQuery,
 	});
 	const list = data?.data;
 	return (
@@ -59,13 +68,31 @@ const JobPositionsScreen = () => {
 							setMaxSalaryInput(query);
 						}}
 						overrideLabel={translate("endSalary")}
-					/>{" "}
+					/>
 					<GenericBooleanQueryHandler
 						label={translate("availability")}
 						setQuery={(values) => {
 							setAvailabilityQuery(values);
 						}}
+						overrideOptions={[
+							{ label: "available", value: "1" },
+							{ label: "unavailable", value: "0" },
+						]}
 					/>
+					<MagicSelect
+						label={translate("riskLevel")}
+						className="w-1/5"
+						selectionMode="multiple"
+						onSelectionChange={(selectedKeys) => {
+							if (!selectedKeys) return;
+							setRiskLevelsQuery([...selectedKeys] as any);
+						}}
+						defaultSelectedKeys={riskLevelsQuery}
+					>
+						{Object.values(JobPositionRiskLevels).map((level) => (
+							<SelectItem key={level}>{level}</SelectItem>
+						))}
+					</MagicSelect>
 				</div>
 				{list?.length ? (
 					<div className="flex flex-wrap gap-4 overflow-y-auto py-4 px-2">

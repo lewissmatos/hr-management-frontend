@@ -2,7 +2,7 @@ import React, { FC, useEffect } from "react";
 import { MagicInput } from "../ui";
 import useDebounce from "../../hooks/useDebounce";
 import { useLsmTranslation } from "react-lsm";
-import { CircularProgress } from "@heroui/react";
+import { CircularProgress, InputProps } from "@heroui/react";
 import { formatList } from "../../utils/format.utils";
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 	className?: string;
 	startContent?: React.ReactNode;
 	overrideLabel?: string;
-};
+} & InputProps;
 const GenericSearchByQueryInput: FC<Props> = ({
 	setQuery,
 	isLoading,
@@ -22,6 +22,7 @@ const GenericSearchByQueryInput: FC<Props> = ({
 	className,
 	startContent,
 	overrideLabel,
+	...rest
 }) => {
 	const { translate } = useLsmTranslation();
 	const [debouncedSearchInput, setSearchInput] = useDebounce();
@@ -61,6 +62,7 @@ const GenericSearchByQueryInput: FC<Props> = ({
 					<></>
 				)
 			}
+			{...rest}
 		/>
 	);
 };

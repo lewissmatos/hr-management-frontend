@@ -2,6 +2,7 @@
 	"APP_NAME": "Gestión de Recursos Humanos",
 	"DEVELOPED_BY": "Desarrollado por Lewis Matos",
 	"common": {
+		"apply": "Aplicar",
 		"searchBy": "Buscar por {field}",
 		"yes": "Sí",
 		"no": "No",
@@ -24,8 +25,12 @@
 		"markAsUnavailable": "Marcar como no disponible",
 		"markAsAvailable": "Marcar como disponible",
 		"enable": "Habilitar",
-		"disable": "Deshabilitar"
+		"disable": "Deshabilitar",
+		"confirm": "Confirmar",
+		"seeMoreInfo": "Click para ver más información",
+		"maxLengthExceeded": "El número máximo de caracteres permitidos es {maxLength}"
 	},
+	"workExperience": "Experiencia laboral",
 	"element": "Elemento",
 	"noDataScreen": {
 		"goToAddElementScreen": "Ir a agregar {element}"
@@ -84,13 +89,15 @@
 		"showPassword": "Mostrar contraseña",
 		"hidePassword": "Ocultar contraseña",
 		"loginButton": "Iniciar sesión",
-		"Pantalla equivocada?": "Ir a 'Puestos de trabajo'"
+		"wrongScreenForCandidates": "¿Pantalla incorrecta?",
+		"goToCandidatesScreen": "Ir a 'Puestos de trabajo'"
 	},
+	"confirmPassword": "Confirmar contraseña",
 	"trainingDetailsScreen": {
 		"manage": "Manejar Capacitación",
 		"add": "Agregar Capacitación"
 	},
-	"jobPositionDetailsScreen": {
+	"manageJobPositionScreen": {
 		"manage": "Manejar Puesto de Trabajo",
 		"add": "Agregar Puesto de Trabajo"
 	},
@@ -100,5 +107,39 @@
 	},
 	"riskLevelInfo": "Nivel de riesgo: {riskLevel}",
 	"startSalary": "Inicio de rango salarial",
-	"endSalary": "Fin de rango salarial"
+	"endSalary": "Fin de rango salarial",
+	"jobsForCandidatesScreen": {
+		"title": "Puestos de trabajo (Vacantes)",
+		"createProfile": "Crear perfil",
+		"myProfile": "Mi perfil"
+	},
+	"postedAt": "Publicado en {date}",
+	"minExpectedSalary": "Salario mínimo esperado",
+	"spokenLanguages": "Idiomas hablados",
+	"applyNow": "Aplicar ahora",
+	"jobPositionDetailsScreen": {
+		"title": "Aplicar a puesto de trabajo",
+		"jobPosition": "Puesto de trabajo:",
+		"candidateInfo": "Información del candidato:",
+		"confirmApplyJobPosition": {
+			"title": "¿Está seguro de que desea aplicar a este puesto?",
+			"message": "Hecho esto, su aplicación a {currentPosition} será removida y ahora estará aplicando a {newPosition}."
+		},
+		"loadCandidateDataWithPasswordModal": {
+			"title": "Cargar datos del candidato",
+			"message": "Para aplicar a este puesto, debe cargar sus datos. Por favor, ingrese su contraseña para continuar."
+		}
+	},
+	"recommendedBy": "Recomendado por",
+	"keepMyInfo": "Mantener mi información para futuras oportunidades",
+	"position": "Puesto",
+	"company": "Compañía",
+	"addWorkExperience": "Agregar experiencia laboral",
+	"workExperienceModa": {
+		"title": "Agregar experiencia laboral"
+	},
+	"applyingTo": "Aplicando a:",
+	"currentlyApplyingToThisPosition": "Actualmente aplicando a este puesto",
+	"apply": "Aplicar",
+	"applicationDate": "Fecha de aplicación"
 }

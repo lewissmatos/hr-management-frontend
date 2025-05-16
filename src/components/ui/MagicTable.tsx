@@ -19,7 +19,8 @@ type TableColumnType<T> = {
 	key?: string;
 	element: string;
 	selector: (
-		value: string | number | object | T
+		value: string | number | object | T,
+		rowIndex?: number
 	) => string | React.ReactNode | null | JSX.Element;
 	className?: string;
 	props?: TableColumnProps<"th">;
@@ -93,11 +94,14 @@ const MagicTable = <T,>({
 			<TableBody {...bodyProps}>
 				{data?.length ? (
 					//Renders the rows in case data exists
-					data.map((row) => (
+					data.map((row, rowIndex) => (
 						<TableRow key={(row as { id: number }).id! as unknown as number}>
 							{columns.map((column) => (
 								<TableCell key={column.key}>
-									{column.selector(column.key ? row[column.key] : row)}
+									{column.selector(
+										column.key ? row[column.key] : row,
+										rowIndex
+									)}
 								</TableCell>
 							))}
 						</TableRow>
