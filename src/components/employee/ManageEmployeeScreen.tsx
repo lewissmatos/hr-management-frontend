@@ -4,7 +4,6 @@ import {
 	Autocomplete,
 	AutocompleteItem,
 	Button,
-	Checkbox,
 	Form,
 	SelectItem,
 } from "@heroui/react";
@@ -21,7 +20,6 @@ import { Save } from "lucide-react";
 import NoDataScreen from "../ui/NoDataScreen";
 import { format, parseISO } from "date-fns";
 import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
-import { useState } from "react";
 import { useGetCandidates } from "../../features/service-hooks/useCandidateService";
 import useDebounce from "../../hooks/useDebounce";
 
@@ -54,10 +52,6 @@ const ManageEmployeeScreen = () => {
 			  }
 			: undefined,
 	});
-
-	const [hasCandidateBackground, setHasCandidateBackground] = useState(
-		Boolean(employee?.candidateBackground)
-	);
 
 	const [
 		debouncedJobPositionSearchInput,
@@ -189,21 +183,12 @@ const ManageEmployeeScreen = () => {
 					defaultValue={employee?.salary?.toString()}
 				/>
 				<div className="flex flex-col gap-2 w-full">
-					<Checkbox
-						defaultSelected={hasCandidateBackground}
-						onChange={(e) => {
-							setHasCandidateBackground(e.target.checked);
-						}}
-					>
-						{translate("hasCandidateBackground")}
-					</Checkbox>
 					<Autocomplete
 						label={translate("candidateBackground")}
 						className="w-full"
 						key={employee?.jobPosition?.id}
 						onSelectionChange={(selectedKeys) => {
 							if (!selectedKeys) return;
-							console.log(selectedKeys);
 							const selectedCandidate = candidatesData?.data.find(
 								(candidate) => candidate.id === selectedKeys[0]
 							);
@@ -211,7 +196,6 @@ const ManageEmployeeScreen = () => {
 								setValue("candidateBackground", selectedCandidate);
 							}
 						}}
-						isDisabled={!hasCandidateBackground}
 						isLoading={isFetchingCandidates}
 						inputValue={candidateSearchInput}
 						onInputChange={(value) => setCandidateSearchInput(value)}

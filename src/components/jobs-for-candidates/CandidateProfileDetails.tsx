@@ -49,6 +49,7 @@ import PasswordInput from "../ui/PasswordInput";
 import WorkExperienceTable from "./WorkExperienceTable";
 import WorkExperienceModal from "./WorkExperienceModal";
 import { CandidateProfileConfirmationStatuses } from "./jobs-for-candidates.utils";
+import toast from "react-hot-toast";
 
 type Props = {
 	isFromProfileDrawer?: boolean;
@@ -250,14 +251,22 @@ const CandidateProfileDetails: FC<Props> = ({
 								setValue("cedula", e.target.value);
 								if (e.target.value?.length === 11) {
 									const res = await onGetCandidateByCedula(e.target.value);
-									if (res) {
+									console.log("cedula check: ", res);
+									if (res === "PENDING") {
 										setCandidateProfileConfirmationStatus(
 											CandidateProfileConfirmationStatuses.PENDING
 										);
 										onOpenCandidatePasswordModal();
-									} else {
+									} else if (res === "NO_MATTER") {
 										setCandidateProfileConfirmationStatus(
 											CandidateProfileConfirmationStatuses.NO_MATTER
+										);
+									} else {
+										toast.error(
+											translate("jobPositionDetailsScreen.candidateIsEmployee")
+										);
+										setCandidateProfileConfirmationStatus(
+											CandidateProfileConfirmationStatuses.DENY
 										);
 									}
 								}
@@ -419,7 +428,7 @@ const CandidateProfileDetails: FC<Props> = ({
 									isRequired
 								/>
 							</div>
-							<div className="flex flex-col gap-2 w-full">
+							<div className="flex flex-col gap-2 w-full max-h-[300px]">
 								<p className="font-semibold text-md">
 									{translate("workExperience")}
 								</p>
@@ -427,8 +436,8 @@ const CandidateProfileDetails: FC<Props> = ({
 									<WorkExperienceTable
 										data={workExperiences ?? []}
 										setWorkExperienceToEdit={(index, experience) => {
-											console.log(index, experience);
 											setWorkExperienceToEdit({
+												index,
 												experience,
 											});
 											onOpenWorkExperienceModal();

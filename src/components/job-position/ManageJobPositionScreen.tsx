@@ -51,7 +51,10 @@ const ManageJobPositionScreen = () => {
 
 	const isEditing = Boolean(id);
 
-	const isJobPositionAvailable = watch("isAvailable");
+	const isJobPositionAvailable =
+		jobPosition?.isAvailable !== undefined
+			? jobPosition?.isAvailable
+			: watch("isAvailable");
 	const onSubmit = async (data: Partial<JobPosition>) => {
 		try {
 			if (isEditing) {
@@ -168,8 +171,10 @@ const ManageJobPositionScreen = () => {
 					})}
 					label={translate("description")}
 					isRequired
-					className="w-full"
-					minRows={6}
+					className="w-full "
+					classNames={{
+						input: "min-h-[400px]",
+					}}
 					maxLength={DESCRIPTION_MAX_LENGTH}
 					defaultValue={jobPosition?.description}
 				/>

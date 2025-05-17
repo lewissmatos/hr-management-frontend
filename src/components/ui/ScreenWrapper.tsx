@@ -13,7 +13,7 @@ const ScreenWrapper: FC<Props> = ({
 	className,
 }) => {
 	return (
-		<div className={`flex flex-col gap-4 p-4 ${className} `}>
+		<div className={`flex flex-col gap-2 p-2 ${className} `}>
 			<div className="flex flex-row justify-between items-center">
 				<h3 className="font-semibold text-3xl"> {title}</h3>
 				{headerOptions}

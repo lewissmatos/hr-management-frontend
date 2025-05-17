@@ -18,12 +18,14 @@ const EmployeesScreen = () => {
 	const navigate = useNavigate();
 	const [debouncedSearchInput, setSearchInput] = useDebounce();
 	const [debouncedStartDate, setDebouncedStartDate, startDate] = useDebounce();
+	const [debouncedEndDate, setDebouncedEndDate, endDate] = useDebounce();
 	const [debouncedStartSalaryInput, setStartSalaryInput] = useDebounce();
 	const [debouncedEndSalaryInput, setEndSalaryInput] = useDebounce();
 
 	const { data, isFetching } = useGetEmployees({
 		searchParam: debouncedSearchInput,
 		startDate: debouncedStartDate,
+		endDate: debouncedEndDate,
 		startSalary: debouncedStartSalaryInput,
 		endSalary: debouncedEndSalaryInput,
 	});
@@ -116,6 +118,13 @@ const EmployeesScreen = () => {
 						paramName="startDate"
 						date={startDate}
 						setDebouncedDate={setDebouncedStartDate}
+						isLoading={isFetching}
+					/>
+
+					<GenericDateQuery
+						paramName="endDate"
+						date={endDate}
+						setDebouncedDate={setDebouncedEndDate}
 						isLoading={isFetching}
 					/>
 					<GenericSearchByQueryInput

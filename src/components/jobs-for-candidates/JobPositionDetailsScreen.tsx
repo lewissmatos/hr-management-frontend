@@ -4,17 +4,15 @@ import { useParams } from "react-router-dom";
 import { useGetJobPosition } from "../../features/service-hooks/useJobPositionService";
 import { useLsmTranslation } from "react-lsm";
 import NoDataScreen from "../ui/NoDataScreen";
-import { formatCurrency } from "../../utils/format.utils";
-import { getJobPositionRiskLevelColorClass } from "../job-position/job-position.utils";
 import CandidateProfileDetails from "./CandidateProfileDetails";
 import {
 	Button,
+	Divider,
 	Modal,
 	ModalBody,
 	ModalContent,
 	ModalFooter,
 	ModalHeader,
-	Textarea,
 	useDisclosure,
 } from "@heroui/react";
 import {
@@ -23,6 +21,7 @@ import {
 } from "../../features/service-hooks/useCandidateService";
 import { Candidate } from "../../types/app-types";
 import useApplyingCandidateStore from "../../features/store/applying-candidate-store";
+import JobPositionInformation from "./JobPositionInformation";
 
 const JobPositionDetailsScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -52,19 +51,30 @@ const JobPositionDetailsScreen = () => {
 	const onApplyJobPosition = async (info: Partial<Candidate>) => {
 		if (jobPosition) {
 			try {
+				let candidateInfo = info;
 				if (hasCandidate) {
-					await onUpdateCandidate({
+					const res = await onUpdateCandidate({
 						...info,
 						applyingJobPosition: jobPosition,
 					});
+					candidateInfo = {
+						...info,
+						...res.data?.data,
+						applyingJobPosition: jobPosition,
+					};
 				} else {
-					await onAddCandidate({
+					const res = await onAddCandidate({
 						...info,
 						applyingJobPosition: jobPosition,
 					});
+					candidateInfo = {
+						...info,
+						...res.data?.data,
+						applyingJobPosition: jobPosition,
+					};
 				}
 				saveInfo({
-					...info,
+					...candidateInfo,
 					applyingJobPosition: jobPosition,
 				} as Candidate);
 			} catch (error) {
@@ -91,9 +101,6 @@ const JobPositionDetailsScreen = () => {
 			/>
 		);
 	}
-	const riskLevelColorClass = getJobPositionRiskLevelColorClass(
-		jobPosition.riskLevel
-	);
 
 	return (
 		<ScreenWrapper title={translate("jobPositionDetailsScreen.title")}>
@@ -107,49 +114,20 @@ const JobPositionDetailsScreen = () => {
 				currentPositionName={candidateData?.applyingJobPosition?.name || ""}
 				newPositionName={jobPosition.name}
 			/>
-			<div className="flex gap-4">
-				<div className="flex flex-col w-1/3 gap-4 max-h-[1200px]">
+			<div className="flex gap-8">
+				<div className="flex flex-col w-2/5 gap-4 max-h-[1200px]">
 					<h2 className="text-2xl font-semibold">
 						{translate("jobPositionDetailsScreen.jobPosition")}
 					</h2>
-					<div className="flex flex-col gap-4">
-						<ListItem labelKey="name" value={jobPosition.name} />
-						<ListItem
-							labelKey="riskLevel"
-							value={jobPosition.riskLevel}
-							valueClassName={`text-${riskLevelColorClass}-500`}
-						/>
-
-						<ListItem
-							labelKey="minSalary"
-							value={formatCurrency(jobPosition.minSalary)}
-						/>
-						<ListItem
-							labelKey="maxSalary"
-							value={formatCurrency(jobPosition.maxSalary)}
-						/>
-						{jobPosition.description && (
-							<>
-								<small className="font-semibold text-xl">
-									{translate("description")}
-								</small>
-								<Textarea
-									value={jobPosition.description}
-									isReadOnly
-									className=""
-									classNames={{
-										input:
-											"overflow-x-hidden overflow-y-auto min-h-[500px] text-lg hover:bg-transparent focus:bg-transparent focus:outline-none",
-									}}
-								/>
-							</>
-						)}
-					</div>
+					<Divider />
+					<JobPositionInformation jobPosition={jobPosition} />
 				</div>
-				<div className="flex flex-col w-2/3 gap-4">
+				<Divider orientation="vertical" />
+				<div className="flex flex-col w-3/5 gap-4">
 					<h2 className="text-2xl font-semibold">
 						{translate("jobPositionDetailsScreen.candidateInfo")}
 					</h2>
+					<Divider />
 					<CandidateProfileDetails
 						isApplying={isUpdatingCandidate || isAddingCandidate}
 						onApplyJobPosition={async (candidate) => {
@@ -168,24 +146,6 @@ const JobPositionDetailsScreen = () => {
 				</div>
 			</div>
 		</ScreenWrapper>
-	);
-};
-
-const ListItem = ({
-	labelKey,
-	value,
-	valueClassName,
-}: {
-	labelKey: string;
-	value: string | number | undefined;
-	valueClassName?: string;
-}) => {
-	const { translate } = useLsmTranslation();
-	return (
-		<div className="flex flex-row gap-2 text-xl">
-			<span className="font-semibold">{translate(labelKey)}:</span>
-			<span className={`${valueClassName}`}>{value}</span>
-		</div>
 	);
 };
 

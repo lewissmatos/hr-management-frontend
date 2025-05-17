@@ -1,5 +1,5 @@
 {
-	"APP_NAME": "Gestión de Recursos Humanos",
+	"APP_NAME": "GES-HR",
 	"DEVELOPED_BY": "Desarrollado por Lewis Matos",
 	"common": {
 		"apply": "Aplicar",
@@ -67,7 +67,9 @@
 	"unavailable": "No disponible",
 	"availability": "Disponibilidad",
 	"proficiencies": "Competencias",
+	"proficiency": "Competencia",
 	"languages": "Idiomas",
+	"language": "Idioma",
 	"trainings": "Capacitaciones",
 	"candidates": "Candidatos",
 	"candidate": "Candidato",
@@ -128,7 +130,8 @@
 		"loadCandidateDataWithPasswordModal": {
 			"title": "Cargar datos del candidato",
 			"message": "Para aplicar a este puesto, debe cargar sus datos. Por favor, ingrese su contraseña para continuar."
-		}
+		},
+		"candidateIsEmployee": "El candidato ya es empleado. Ya no podrá aplicar a otros puestos de trabajo."
 	},
 	"recommendedBy": "Recomendado por",
 	"keepMyInfo": "Mantener mi información para futuras oportunidades",
@@ -141,5 +144,20 @@
 	"applyingTo": "Aplicando a:",
 	"currentlyApplyingToThisPosition": "Actualmente aplicando a este puesto",
 	"apply": "Aplicar",
-	"applicationDate": "Fecha de aplicación"
+	"applyingDate": "Fecha de aplicación",
+	"startApplyingDate": "Fecha de inicio de aplicación",
+	"endApplyingDate": "Fecha de finalización de aplicación",
+	"candidateScreen": {
+		"makeEmployee": "Convertir a empleado",
+		"applyingJobPosition": "Puesto de trabajo aplicado",
+		"makeEmployeeModal": {
+			"title": "¿Está seguro de que desea convertir a {candidateName} en empleado?",
+			"message": "Hecho esto, el candidato ya no podrá aplicar a otros puestos de trabajo y formará parte de la base de datos de empleados.",
+			"salaryWarning": "El salario mínimo con el que puede contratar a este candidato es: {minSalary}."
+		}
+	},
+	"isEmployee": "¿Es empleado?",
+	"jobPositionInfoScreen": {
+		"title": "Información del puesto de trabajo"
+	}
 }

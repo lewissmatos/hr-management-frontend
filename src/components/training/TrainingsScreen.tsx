@@ -98,12 +98,14 @@ const TrainingsScreen = () => {
 						paramName="startDate"
 						date={startDate}
 						setDebouncedDate={setDebouncedStartDate}
+						isLoading={isFetching}
 					/>
 
 					<GenericDateQuery
 						paramName="endDate"
 						date={endDate}
 						setDebouncedDate={setDebouncedEndDate}
+						isLoading={isFetching}
 					/>
 				</div>
 				{list?.length ? (

@@ -25,7 +25,7 @@ import useApplyingCandidateStore from "../../features/store/applying-candidate-s
 type Props = {
 	position: JobPosition;
 };
-const JobPositionCandidateCard: FC<Props> = ({ position }) => {
+const JobPositionForCandidateCard: FC<Props> = ({ position }) => {
 	const { translate } = useLsmTranslation();
 	const navigate = useNavigate();
 	const riskLevelColorClass = getJobPositionRiskLevelColorClass(
@@ -117,4 +117,4 @@ const JobPositionCandidateCard: FC<Props> = ({ position }) => {
 	);
 };
 
-export default JobPositionCandidateCard;
+export default JobPositionForCandidateCard;

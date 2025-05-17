@@ -2,7 +2,7 @@ import ScreenWrapper from "../ui/ScreenWrapper";
 import { useLsmTranslation } from "react-lsm";
 import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInput";
 import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
-import JobPositionCandidateCard from "./JobPositionCandidateCard";
+import JobPositionForCandidateCard from "./JobPositionForCandidateCard";
 import NoDataScreen from "../ui/NoDataScreen";
 import { Avatar, Button, SelectItem, useDisclosure } from "@heroui/react";
 import { CircleDollarSign, CircleUserRound } from "lucide-react";
@@ -116,7 +116,7 @@ const JobsForCandidatesScreen = () => {
 					{jobPositions?.length ? (
 						<div className="flex flex-wrap gap-4 overflow-y-auto py-4 px-2">
 							{jobPositions.map((jobPosition) => (
-								<JobPositionCandidateCard
+								<JobPositionForCandidateCard
 									key={jobPosition.id}
 									position={jobPosition}
 								/>

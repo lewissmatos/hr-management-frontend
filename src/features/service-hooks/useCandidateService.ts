@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import getQueryClient from "./tanstackQueryClient";
 import { serviceGenerator } from "../services/services-generator";
 import { Candidate } from "../../types/app-types";
+import axiosInstance from "../services/axios-instance";
 import axios from "axios";
 const {
 	onGet: onGetCandidates,
@@ -66,16 +67,16 @@ export const useGetCandidate = (id: number) => {
 };
 
 export const onGetCandidateByCedula = async (cedula: string) => {
-	let res = false;
+	let res = "";
 	try {
 		const response = await axios.get(
 			`${import.meta.env.VITE_API_BASE_URL}/candidates/${cedula}/cedula`
 		);
-		res = Boolean(response.data);
+		res = response?.data?.message;
 	} catch (error) {
 		if (axios.isAxiosError(error)) {
 			if (error.response?.status === 404) {
-				res = false;
+				res = "NO_MATTER";
 			} else {
 				console.error("Error fetching candidate by cedula:", error);
 			}
@@ -92,6 +93,21 @@ export const useUpdateCandidate = () => {
 	return useMutation({
 		mutationFn: (data: Partial<Candidate>) =>
 			onUpdateCandidate(data.id as number, data),
+		onSuccess: () => {
+			qc.invalidateQueries({ queryKey: ["update-candidate"] });
+		},
+	});
+};
+
+export const useMakeCandidateEmployee = () => {
+	const qc = getQueryClient();
+	return useMutation({
+		mutationFn: async ({ id, salary }: { id: number; salary?: number }) =>
+			(
+				await axiosInstance.put(`candidates/${id}/make-employee`, {
+					salary,
+				})
+			).data,
 		onSuccess: () => {
 			qc.invalidateQueries({ queryKey: ["update-candidate"] });
 		},

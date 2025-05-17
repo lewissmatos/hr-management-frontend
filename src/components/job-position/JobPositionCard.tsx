@@ -16,6 +16,7 @@ import {
 	Ban,
 	TriangleAlert,
 	Pencil,
+	Eye,
 } from "lucide-react";
 import { JobPosition } from "../../types/app-types";
 import { format } from "date-fns";
@@ -88,7 +89,22 @@ const JobPositionCard: FC<Props> = ({ position, refetch }) => {
 						size="sm"
 						variant="flat"
 						onPress={() => {
+							navigate(`/job-position/details/${position.id}`);
+						}}
+						tooltipProps={{
+							content: translate("common.seeMoreInfo"),
+						}}
+					>
+						<Eye size={18} />
+					</MagicIconButton>
+					<MagicIconButton
+						size="sm"
+						variant="flat"
+						onPress={() => {
 							navigate(`/job-position/${position.id}`);
+						}}
+						tooltipProps={{
+							content: translate("common.edit"),
 						}}
 					>
 						<Pencil size={18} />
