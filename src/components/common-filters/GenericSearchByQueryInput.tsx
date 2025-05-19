@@ -46,7 +46,7 @@ const GenericSearchByQueryInput: FC<Props> = ({
 				})
 			}
 			type={inputType}
-			className={`w-4/12 ${className}`}
+			className={`w-1/5 ${className}`}
 			onChange={(e) => {
 				setSearchInput(e.target.value);
 			}}

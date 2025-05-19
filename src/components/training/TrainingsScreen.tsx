@@ -5,12 +5,13 @@ import { MagicIconButton, MagicTable } from "../ui";
 import NoDataScreen from "../ui/NoDataScreen";
 import { Training } from "../../types/app-types";
 import { format } from "date-fns";
-import { Pencil } from "lucide-react";
+import { Pencil, PlusCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInput";
 import useDebounce from "../../hooks/useDebounce";
 import GenericDateQuery from "../common-filters/GenericDateQuery";
 import { useMemo } from "react";
+import { Button } from "@heroui/react";
 
 const TrainingsScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -83,7 +84,19 @@ const TrainingsScreen = () => {
 	);
 
 	return (
-		<ScreenWrapper title={translate("trainings")}>
+		<ScreenWrapper
+			title={translate("trainings")}
+			headerOptions={
+				<Button
+					variant="solid"
+					color="primary"
+					onPress={() => navigate("/training")}
+					endContent={<PlusCircle />}
+				>
+					{translate("common.add")}
+				</Button>
+			}
+		>
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-row gap-4">
 					<GenericSearchByQueryInput

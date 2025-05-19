@@ -18,9 +18,13 @@ const JobPositionInformation = ({ jobPosition }: Props) => {
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-row gap-2 items-center">
 				<h2 className="text-2xl font-semibold">{jobPosition.name}</h2>
-				<h5 className="text-xl text-foreground-500">
-					{`/ ${jobPosition.department}`}
-				</h5>
+				{jobPosition.department ? (
+					<h5 className="text-xl text-foreground-500">
+						{`/ ${jobPosition.department}`}
+					</h5>
+				) : (
+					""
+				)}
 			</div>
 
 			<div

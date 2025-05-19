@@ -28,9 +28,11 @@
 		"disable": "Deshabilitar",
 		"confirm": "Confirmar",
 		"seeMoreInfo": "Click para ver más información",
-		"maxLengthExceeded": "El número máximo de caracteres permitidos es {maxLength}"
+		"maxLengthExceeded": "El número máximo de caracteres permitidos es {maxLength}",
+		"andQuantityMore": "y {quantity} más"
 	},
 	"workExperience": "Experiencia laboral",
+	"workExperiences": "Experiencias laborales",
 	"element": "Elemento",
 	"noDataScreen": {
 		"goToAddElementScreen": "Ir a agregar {element}"
@@ -77,6 +79,7 @@
 	"jobPosition": "Puesto de trabajo",
 	"employees": "Empleados",
 	"employee": "Empleado",
+	"notEmployee": "No Empleado",
 	"riskLevel": "Nivel de riesgo",
 	"minSalary": "Salario mínimo",
 	"maxSalary": "Salario máximo",
@@ -158,6 +161,7 @@
 	},
 	"isEmployee": "¿Es empleado?",
 	"jobPositionInfoScreen": {
-		"title": "Información del puesto de trabajo"
+		"title": "Información del puesto de trabajo",
+		"noCandidates": "No hay candidatos activos aplicando a este puesto"
 	}
 }

@@ -103,7 +103,10 @@ const JobPositionDetailsScreen = () => {
 	}
 
 	return (
-		<ScreenWrapper title={translate("jobPositionDetailsScreen.title")}>
+		<ScreenWrapper
+			title={translate("jobPositionDetailsScreen.title")}
+			className="p-4"
+		>
 			<ConfirmApplyJobPositionDialog
 				isOpen={isConfirmApplyDialogOpen}
 				onClose={onCloseConfirmApplyDialogOpen}

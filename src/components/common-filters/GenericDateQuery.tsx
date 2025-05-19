@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 import { useLsmTranslation } from "react-lsm";
-import { MagicDatePicker, MagicIconButton } from "../ui";
+import { MagicDatePicker,  } from "../ui";
 import { format, parseISO } from "date-fns";
 import { parseDate } from "@internationalized/date";
 import { CircleX } from "lucide-react";
@@ -24,7 +24,7 @@ const GenericDateQuery: FC<Props> = ({
 	return (
 		<MagicDatePicker
 			label={translate(paramName)}
-			className={`w-[300px] ${className}`}
+			className={`w-[280px] ${className}`}
 			value={date ? parseDate(format(new Date(date), "yyyy-MM-dd")) : null}
 			onChange={(date) => {
 				setDebouncedDate(

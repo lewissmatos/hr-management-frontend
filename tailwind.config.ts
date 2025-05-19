@@ -15,7 +15,7 @@ const baseLayout = {
 	},
 };
 const basePrimaryColors = {
-	...generateColorPalette("#60a884"),
+	...generateColorPalette("#fc9803"),
 };
 
 /** @type {import('tailwindcss').Config} */
@@ -41,10 +41,10 @@ module.exports = {
 					extend: "light",
 					layout: baseLayout,
 					colors: {
-						foreground: "#272727",
+						foreground: "#1a1a1a",
 						primary: {
 							...basePrimaryColors.primary,
-							foreground: "#272727",
+							foreground: "#1a1a1a",
 						},
 					},
 				},
@@ -52,7 +52,7 @@ module.exports = {
 					extend: "dark",
 					layout: baseLayout,
 					colors: {
-						background: "#272727",
+						background: "#1a1a1a",
 						primary: {
 							...basePrimaryColors.primary,
 							foreground: "#ffffff",

@@ -11,6 +11,7 @@ import {
 import { useLsmTranslation } from "react-lsm";
 import useApplyingCandidateStore from "../../features/store/applying-candidate-store";
 import CandidateProfileDetails from "./CandidateProfileDetails";
+import ThemeToggler from "../layout/ThemeToggler";
 
 type Props = {
 	isOpen: boolean;
@@ -46,9 +47,7 @@ const CandidateProfileDrawer: FC<Props> = ({ isOpen, onClose }) => {
 							>
 								{translate("logout.button")}
 							</Button>
-							<Button color="danger" variant="light" onPress={onClose}>
-								{translate("common.close")}
-							</Button>
+							<ThemeToggler />
 						</DrawerFooter>
 					</>
 				)}

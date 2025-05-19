@@ -3,12 +3,16 @@ import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInp
 import GenericDateQuery from "../common-filters/GenericDateQuery";
 import { CircleDollarSign } from "lucide-react";
 import { useLsmTranslation } from "react-lsm";
-import { Autocomplete, AutocompleteItem } from "@heroui/react";
-import useDebounce from "../../hooks/useDebounce";
+import { SelectItem } from "@heroui/react";
 import { useGetProficiencies } from "../../features/service-hooks/useProficiencyService";
 import { useGetTrainings } from "../../features/service-hooks/useTrainingService";
 import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
 import { useGetLanguages } from "../../features/service-hooks/useLanguageService";
+import { useGetEmployees } from "../../features/service-hooks/useEmployeeService";
+import { MagicSelect } from "../ui";
+import { Departments } from "../../types/app-types";
+import LazyAutocompleteQuery from "../common-filters/LazyAutocompleteQuery";
+import GenericBooleanQueryHandler from "../common-filters/GenericBooleanQueryHandler";
 
 type Props = {
 	isFetching: boolean;
@@ -23,6 +27,9 @@ type Props = {
 	setTrainingQuery: (x: string) => void;
 	setLanguageQuery: (x: string) => void;
 	setApplyingJobPositionQuery: (x: string) => void;
+	setRecommendedByQuery: (x: string) => void;
+	setDepartmentQuery: (x: string) => void;
+	setIsEmployeeQuery: (x: boolean[]) => void;
 };
 const CandidatesFilters = ({
 	isFetching,
@@ -37,6 +44,9 @@ const CandidatesFilters = ({
 	setTrainingQuery,
 	setLanguageQuery,
 	setApplyingJobPositionQuery,
+	setRecommendedByQuery,
+	setDepartmentQuery,
+	setIsEmployeeQuery,
 }: Props) => {
 	const { translate } = useLsmTranslation();
 
@@ -44,7 +54,7 @@ const CandidatesFilters = ({
 		<div className="flex flex-col gap-4">
 			<div className="flex flex-row gap-4">
 				<GenericSearchByQueryInput
-					properties={["cedula", "name", "department", "recommendedBy"]}
+					properties={["cedula", "name"]}
 					isLoading={isFetching}
 					setQuery={(query) => {
 						setDebouncedSearchInput(query);
@@ -61,6 +71,16 @@ const CandidatesFilters = ({
 					date={endApplyingDate}
 					setDebouncedDate={setDebouncedEndApplyingDate}
 					isLoading={isFetching}
+				/>
+				<GenericBooleanQueryHandler
+					label={translate("isEmployee")}
+					setQuery={(values) => {
+						setIsEmployeeQuery(values);
+					}}
+					overrideOptions={[
+						{ label: "employee", value: "1" },
+						{ label: "notEmployee", value: "0" },
+					]}
 				/>
 				<GenericSearchByQueryInput
 					properties={["salary"]}
@@ -118,57 +138,27 @@ const CandidatesFilters = ({
 					labelKey="candidateScreen.applyingJobPosition"
 					useQueryHook={useGetJobPositions as any}
 				/>
+				<MagicSelect
+					label={translate("department")}
+					onSelectionChange={(selectedKeys) => {
+						if (!selectedKeys) return;
+						setDepartmentQuery([...selectedKeys] as any);
+					}}
+				>
+					{Object.values(Departments).map((department) => (
+						<SelectItem key={department}>{department}</SelectItem>
+					))}
+				</MagicSelect>
+				<LazyAutocompleteQuery
+					key="recommended-by-name"
+					setSelectedValue={setRecommendedByQuery}
+					displayPropName="name"
+					labelKey="recommendedBy"
+					useQueryHook={useGetEmployees as any}
+				/>
 			</div>
 		</div>
 	);
 };
 
-type LazyAutocompleteQueryProps<T> = {
-	key: string;
-	setSelectedValue: (x: string) => void;
-	displayPropName: string;
-	labelKey: string;
-	useQueryHook: (filters: any) => {
-		data: { data: T[] };
-		isLoading: boolean;
-	};
-};
-const LazyAutocompleteQuery = <T,>({
-	key,
-	setSelectedValue,
-	displayPropName,
-	labelKey,
-	useQueryHook,
-}: LazyAutocompleteQueryProps<T>) => {
-	const { translate } = useLsmTranslation();
-
-	const [debouncedSearch, setDebouncedSearch, searchInput] = useDebounce();
-
-	const { data, isLoading: isFetching } = useQueryHook({
-		[displayPropName]: debouncedSearch,
-		isActive: [true],
-	});
-
-	return (
-		<Autocomplete
-			label={translate(labelKey)}
-			className="w-full"
-			key={key}
-			onSelectionChange={(selectedKey) => {
-				setSelectedValue(selectedKey?.toString() || "");
-			}}
-			isLoading={isFetching}
-			inputValue={searchInput}
-			onInputChange={(value) => setDebouncedSearch(value)}
-		>
-			{
-				data?.data.map((x) => (
-					<AutocompleteItem key={x[displayPropName]}>
-						{x[displayPropName]}
-					</AutocompleteItem>
-				)) as any
-			}
-		</Autocomplete>
-	);
-};
 export default CandidatesFilters;

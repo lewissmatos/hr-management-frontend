@@ -1,17 +1,20 @@
 import { useLsmTranslation } from "react-lsm";
 import ScreenWrapper from "../ui/ScreenWrapper";
 import { useGetEmployees } from "../../features/service-hooks/useEmployeeService";
-import { MagicIconButton, MagicTable } from "../ui";
+import { MagicIconButton, MagicSelect, MagicTable } from "../ui";
 import NoDataScreen from "../ui/NoDataScreen";
-import { Employee } from "../../types/app-types";
-import { CircleDollarSign, Pencil } from "lucide-react";
+import { Departments, Employee } from "../../types/app-types";
+import { CircleDollarSign, Pencil, PlusCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { formatCurrency } from "../../utils/format.utils";
 import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInput";
 import GenericDateQuery from "../common-filters/GenericDateQuery";
 import useDebounce from "../../hooks/useDebounce";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { Button, SelectItem } from "@heroui/react";
+import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
+import LazyAutocompleteQuery from "../common-filters/LazyAutocompleteQuery";
 
 const EmployeesScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -22,12 +25,17 @@ const EmployeesScreen = () => {
 	const [debouncedStartSalaryInput, setStartSalaryInput] = useDebounce();
 	const [debouncedEndSalaryInput, setEndSalaryInput] = useDebounce();
 
+	const [otherFilters, setOtherFilters] = useState({
+		jobPosition: "",
+		department: "",
+	});
 	const { data, isFetching } = useGetEmployees({
 		searchParam: debouncedSearchInput,
 		startDate: debouncedStartDate,
 		endDate: debouncedEndDate,
 		startSalary: debouncedStartSalaryInput,
 		endSalary: debouncedEndSalaryInput,
+		...otherFilters,
 	});
 	const list = data?.data;
 
@@ -56,7 +64,14 @@ const EmployeesScreen = () => {
 			{
 				element: "jobPosition",
 				selector: (employee: Employee) => (
-					<span className="text-md">{employee.jobPosition.name}</span>
+					<span
+						className="text-md font-semibold hover:underline cursor-pointer"
+						onClick={() => {
+							navigate(`/job-position/${employee.jobPosition.id}`);
+						}}
+					>
+						{employee.jobPosition.name}
+					</span>
 				),
 			},
 			{
@@ -104,11 +119,23 @@ const EmployeesScreen = () => {
 	);
 
 	return (
-		<ScreenWrapper title={translate("employees")}>
+		<ScreenWrapper
+			title={translate("employees")}
+			headerOptions={
+				<Button
+					variant="solid"
+					color="primary"
+					onPress={() => navigate("/employee")}
+					endContent={<PlusCircle />}
+				>
+					{translate("common.add")}
+				</Button>
+			}
+		>
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-row gap-4">
 					<GenericSearchByQueryInput
-						properties={["cedula", "name", "jobPosition", "department"]}
+						properties={["cedula", "name"]}
 						isLoading={isFetching}
 						setQuery={(query) => {
 							setSearchInput(query);
@@ -153,6 +180,35 @@ const EmployeesScreen = () => {
 						}}
 						overrideLabel={translate("endSalary")}
 					/>
+					<LazyAutocompleteQuery
+						key="job-position-name"
+						setSelectedValue={(val) => {
+							if (!val) return;
+							setOtherFilters((prev) => ({
+								...prev,
+								jobPosition: val,
+							}));
+						}}
+						displayPropName="name"
+						labelKey="jobPosition"
+						className="w-1/6"
+						useQueryHook={useGetJobPositions as any}
+					/>
+					<MagicSelect
+						label={translate("department")}
+						onSelectionChange={(selectedKeys) => {
+							if (!selectedKeys) return;
+							setOtherFilters((prev) => ({
+								...prev,
+								department: selectedKeys[0],
+							}));
+						}}
+						className="w-1/6"
+					>
+						{Object.values(Departments).map((department) => (
+							<SelectItem key={department}>{department}</SelectItem>
+						))}
+					</MagicSelect>
 				</div>
 
 				{list?.length ? (

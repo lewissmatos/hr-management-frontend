@@ -57,6 +57,21 @@ export const useGetCandidates = (filters?: Record<string, any>) => {
 	};
 };
 
+export const useGetCandidatesByPosition = ({
+	jobPositionId,
+}: {
+	jobPositionId: number;
+}) => {
+	return {
+		...useQuery({
+			queryKey: ["get-candidates-by-position", jobPositionId],
+			queryFn: async () =>
+				(await axiosInstance.get(`candidates/job-position/${jobPositionId}`))
+					.data,
+		}),
+	};
+};
+
 export const useGetCandidate = (id: number) => {
 	return useQuery({
 		queryKey: [`get-candidate-${id}`],

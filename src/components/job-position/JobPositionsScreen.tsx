@@ -5,15 +5,17 @@ import NoDataScreen from "../ui/NoDataScreen";
 import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
 import JobPositionCard from "./JobPositionCard";
 import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInput";
-import { CircleDollarSign } from "lucide-react";
+import { CircleDollarSign, PlusCircle } from "lucide-react";
 import useDebounce from "../../hooks/useDebounce";
 import GenericBooleanQueryHandler from "../common-filters/GenericBooleanQueryHandler";
-import { SelectItem } from "@heroui/react";
+import { Button, SelectItem } from "@heroui/react";
 import { MagicSelect } from "../ui";
 import { JobPositionRiskLevels } from "../../types/app-types";
+import { useNavigate } from "react-router-dom";
 
 const JobPositionsScreen = () => {
 	const { translate } = useLsmTranslation();
+	const navigate = useNavigate();
 	const [debouncedNameInput, setSNameInput] = useDebounce();
 	const [debouncedMinSalaryInput, setMinSalaryInput] = useDebounce();
 	const [debouncedMaxSalaryInput, setMaxSalaryInput] = useDebounce();
@@ -33,7 +35,19 @@ const JobPositionsScreen = () => {
 	});
 	const list = data?.data;
 	return (
-		<ScreenWrapper title={translate("jobPositions")}>
+		<ScreenWrapper
+			title={translate("jobPositions")}
+			headerOptions={
+				<Button
+					variant="solid"
+					color="primary"
+					onPress={() => navigate("/job-position")}
+					endContent={<PlusCircle />}
+				>
+					{translate("common.add")}
+				</Button>
+			}
+		>
 			<div className="flex flex-col gap-4">
 				<div className="flex flex-row gap-4">
 					<GenericSearchByQueryInput

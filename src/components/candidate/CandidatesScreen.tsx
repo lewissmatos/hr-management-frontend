@@ -1,28 +1,18 @@
 import React from "react";
 import { useLsmTranslation } from "react-lsm";
 import ScreenWrapper from "../ui/ScreenWrapper";
-import { MagicInput } from "../ui";
 import NoDataScreen from "../ui/NoDataScreen";
 import { Candidate } from "../../types/app-types";
-import { CircleDollarSign } from "lucide-react";
 import {
 	useGetCandidates,
 	useMakeCandidateEmployee,
 } from "../../features/service-hooks/useCandidateService";
-import { formatCurrency } from "../../utils/format.utils";
-import {
-	Button,
-	Modal,
-	ModalBody,
-	ModalContent,
-	ModalFooter,
-	ModalHeader,
-	useDisclosure,
-} from "@heroui/react";
+import { useDisclosure } from "@heroui/react";
 import { useToggleJobPositionAvailability } from "../../features/service-hooks/useJobPositionService";
 import useDebounce from "../../hooks/useDebounce";
 import CandidatesTable from "./CandidatesTable";
 import CandidatesFilters from "./CandidatesFilters";
+import MakeCandidateEmployeeDialog from "./MakeCandidateEmployeeDialog";
 
 const CandidatesScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -47,6 +37,9 @@ const CandidatesScreen = () => {
 		training: "",
 		language: "",
 		applyingJobPosition: "",
+		recommendedBy: "",
+		department: "",
+		isEmployee: [true, false],
 	});
 
 	const {
@@ -134,6 +127,24 @@ const CandidatesScreen = () => {
 								applyingJobPosition: value,
 							}))
 						}
+						setRecommendedByQuery={(value) =>
+							setOtherFilters((prev) => ({
+								...prev,
+								recommendedBy: value,
+							}))
+						}
+						setDepartmentQuery={(value) =>
+							setOtherFilters((prev) => ({
+								...prev,
+								department: value,
+							}))
+						}
+						setIsEmployeeQuery={(value) =>
+							setOtherFilters((prev) => ({
+								...prev,
+								isEmployee: value,
+							}))
+						}
 					/>
 					{list?.length ? (
 						<CandidatesTable
@@ -147,102 +158,6 @@ const CandidatesScreen = () => {
 				</div>
 			</ScreenWrapper>
 		</>
-	);
-};
-type MakeCandidateEmployeeDialogProps = {
-	isOpen: boolean;
-	onClose: () => void;
-	candidate: Candidate;
-	onConfirm: (salary?: number) => Promise<void>;
-	isLoading: boolean;
-};
-const MakeCandidateEmployeeDialog = ({
-	isOpen,
-	onClose,
-	candidate,
-	onConfirm,
-	isLoading,
-}: MakeCandidateEmployeeDialogProps) => {
-	const { translate } = useLsmTranslation();
-	const [salary, setSalary] = React.useState<number>(
-		candidate?.minExpectedSalary || 0
-	);
-	const minSalary = candidate?.minExpectedSalary
-		? Number(
-				candidate.minExpectedSalary - Number(candidate.minExpectedSalary) * 0.05
-		  )
-		: 0;
-	return (
-		<Modal isOpen={isOpen} size="md" onClose={onClose}>
-			<ModalContent>
-				{(onClose) => (
-					<>
-						<ModalHeader className="flex flex-col gap-1">
-							{translate("candidateScreen.makeEmployeeModal.title", {
-								replace: { values: { candidateName: candidate.name } },
-							})}
-						</ModalHeader>
-						<ModalBody>
-							<p className="text-lg">
-								{translate("candidateScreen.makeEmployeeModal.message")}
-							</p>
-							<MagicInput
-								label={translate("salary")}
-								value={String(salary)}
-								onChange={(e) => {
-									const value = e.target.value;
-									setSalary(Number(value));
-								}}
-								min={minSalary}
-								type="number"
-								className="mt-2"
-								startContent={
-									<CircleDollarSign className="text-primary-500" size={18} />
-								}
-							/>
-							{minSalary ? (
-								<small
-									className={
-										salary < minSalary ? "text-red-500" : "text-green-500"
-									}
-								>
-									{translate(
-										"candidateScreen.makeEmployeeModal.salaryWarning",
-										{
-											replace: {
-												values: {
-													minSalary: formatCurrency(minSalary),
-												},
-											},
-										}
-									)}
-								</small>
-							) : (
-								<></>
-							)}
-						</ModalBody>
-						<ModalFooter>
-							<Button
-								color="danger"
-								variant="light"
-								onPress={onClose}
-								isDisabled={isLoading}
-							>
-								{translate("common.cancel")}
-							</Button>
-							<Button
-								color="primary"
-								onPress={async () => await onConfirm(salary)}
-								isDisabled={isLoading || salary < minSalary}
-								isLoading={isLoading}
-							>
-								{translate("common.confirm")}
-							</Button>
-						</ModalFooter>
-					</>
-				)}
-			</ModalContent>
-		</Modal>
 	);
 };
 

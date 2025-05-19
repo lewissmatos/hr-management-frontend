@@ -11,4 +11,7 @@ main {
 	button:hover {
 		border-color: transparent;
 	}
+	li {
+		@apply list-disc list-inside;
+	}
 }

@@ -2,10 +2,11 @@ import React, { useMemo } from "react";
 import { useLsmTranslation } from "react-lsm";
 import { Candidate } from "../../types/app-types";
 import { useNavigate } from "react-router-dom";
-import { formatCurrency } from "../../utils/format.utils";
+import { formatCurrency, formatList } from "../../utils/format.utils";
 import { format } from "date-fns";
 import { MagicIconButton, MagicTable } from "../ui";
 import { BriefcaseBusiness } from "lucide-react";
+import { Tooltip } from "@heroui/react";
 
 type Props = {
 	data: Candidate[];
@@ -35,6 +36,110 @@ const CandidatesTable = ({
 				className: "min-w-[140px]",
 			},
 			{
+				element: "proficiencies",
+				selector: (candidate: Candidate) => (
+					<Tooltip
+						content={formatList(
+							candidate.proficiencies.map((p) => p.description),
+							"conjunction"
+						)}
+						isDisabled={candidate.proficiencies?.length === 1}
+						className="text-md max-w-[260px]"
+					>
+						<span className="text-md">{`${
+							candidate.proficiencies?.[0]?.description
+						} ${
+							candidate.proficiencies?.length > 1
+								? translate("common.andQuantityMore", {
+										replace: {
+											values: { quantity: candidate.proficiencies?.length - 1 },
+										},
+								  })
+								: ""
+						}`}</span>
+					</Tooltip>
+				),
+				className: "min-w-[160px]",
+			},
+			{
+				element: "languages",
+				selector: (candidate: Candidate) => (
+					<Tooltip
+						content={formatList(
+							candidate.spokenLanguages.map((l) => l.name),
+							"conjunction"
+						)}
+						isDisabled={candidate.spokenLanguages?.length === 1}
+						className="text-md max-w-[260px]"
+					>
+						<span className="text-md">{`${
+							candidate.spokenLanguages?.[0]?.name
+						} ${
+							candidate.spokenLanguages?.length > 1
+								? translate("common.andQuantityMore", {
+										replace: {
+											values: {
+												quantity: candidate.spokenLanguages?.length - 1,
+											},
+										},
+								  })
+								: ""
+						}`}</span>
+					</Tooltip>
+				),
+				className: "min-w-[160px]",
+			},
+			{
+				element: "trainings",
+				selector: (candidate: Candidate) => (
+					<Tooltip
+						content={formatList(
+							candidate.trainings.map((t) => t.name),
+							"conjunction"
+						)}
+						isDisabled={candidate.trainings?.length === 1}
+						className="text-md max-w-[260px]"
+					>
+						<span className="text-md">{`${candidate.trainings?.[0]?.name} ${
+							candidate.trainings?.length > 1
+								? translate("common.andQuantityMore", {
+										replace: {
+											values: { quantity: candidate.trainings?.length - 1 },
+										},
+								  })
+								: ""
+						}`}</span>
+					</Tooltip>
+				),
+				className: "min-w-[160px]",
+			},
+			{
+				element: "workExperiences",
+				selector: (candidate: Candidate) => (
+					<Tooltip
+						content={formatList(
+							candidate.workExperiences.map((w) => w.position),
+							"conjunction"
+						)}
+						isDisabled={candidate.workExperiences?.length === 1}
+						className="text-md max-w-[260px]"
+					>
+						<span className="text-md">{`${
+							candidate.workExperiences?.[0]?.position
+						} ${
+							candidate.workExperiences?.length > 1
+								? translate("common.andQuantityMore", {
+										replace: {
+											values: { quantity: candidate.trainings?.length - 1 },
+										},
+								  })
+								: ""
+						}`}</span>
+					</Tooltip>
+				),
+				className: "min-w-[160px]",
+			},
+			{
 				element: "candidateScreen.applyingJobPosition",
 				selector: (candidate: Candidate) => (
 					<span
@@ -47,7 +152,6 @@ const CandidatesTable = ({
 					</span>
 				),
 			},
-
 			{
 				element: "department",
 				selector: (candidate: Candidate) => (
@@ -89,7 +193,7 @@ const CandidatesTable = ({
 			{
 				element: "status",
 				selector: (candidate: Candidate) => (
-					<span className="text-md font-semibold hover:underline cursor-pointer">
+					<span className="text-md">
 						{candidate.isActive ? translate("active") : translate("inactive")}
 					</span>
 				),
@@ -97,7 +201,7 @@ const CandidatesTable = ({
 			{
 				element: "isEmployee",
 				selector: (candidate: Candidate) => (
-					<span className="text-md font-semibold hover:underline cursor-pointer">
+					<span className="text-md">
 						{candidate.isEmployee
 							? translate("common.yes")
 							: translate("common.no")}
