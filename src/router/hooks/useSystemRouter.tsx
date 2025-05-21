@@ -20,6 +20,7 @@ import ManageJobPositionScreen from "../../components/job-position/ManageJobPosi
 import ManageEmployeeScreen from "../../components/employee/ManageEmployeeScreen";
 import EmployeesScreen from "../../components/employee/EmployeesScreen";
 import JobPositionInfoScreen from "../../components/job-position/JobPositionInfoScreen";
+import CandidateInformationScreen from "../../components/candidate/CandidateInformationScreen";
 export type ItemGrouper = {
 	label: string;
 	Icon: FC<React.SVGProps<SVGSVGElement>>;
@@ -166,7 +167,7 @@ const useSystemRouter = () => {
 				{
 					label: translate("appDrawer.common.manage"),
 					path: "candidate/:id",
-					screen: <ManageTrainingScreen />,
+					screen: <CandidateInformationScreen />,
 					Icon: (props) => <FileSliders {...props} />,
 					hideFromDrawer: true,
 				},

@@ -54,6 +54,7 @@ type WorkExperience = {
 	startDate: string;
 	endDate: string;
 	position: string;
+	salary: number;
 } & GlobalModel;
 
 export enum Departments {

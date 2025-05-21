@@ -5,8 +5,7 @@ import { useLsmTranslation } from "react-lsm";
 import { Eye, EyeClosed } from "lucide-react";
 type Props = {
 	label?: string;
-	props: React.ComponentProps<typeof MagicInput>;
-};
+} & any;
 
 const PasswordInput: FC<Props> = ({ label, ...props }) => {
 	const { translate } = useLsmTranslation();

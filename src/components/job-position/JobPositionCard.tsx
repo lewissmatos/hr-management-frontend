@@ -17,12 +17,16 @@ import {
 	TriangleAlert,
 	Pencil,
 	Eye,
+	CircleUserRound,
 } from "lucide-react";
 import { JobPosition } from "../../types/app-types";
 import { format } from "date-fns";
 import { formatCurrency } from "../../utils/format.utils";
 import { getJobPositionRiskLevelColorClass } from "./job-position.utils";
-import { useToggleJobPositionAvailability } from "../../features/service-hooks/useJobPositionService";
+import {
+	useGetJobPositionCandidatesCount,
+	useToggleJobPositionAvailability,
+} from "../../features/service-hooks/useJobPositionService";
 import { MagicIconButton } from "../ui";
 import { useNavigate } from "react-router-dom";
 type Props = {
@@ -36,11 +40,16 @@ const JobPositionCard: FC<Props> = ({ position, refetch }) => {
 		mutateAsync: onToggleAvailability,
 		isPending: isToggleAvailabilityPending,
 	} = useToggleJobPositionAvailability();
+
+	const { data: candidatesCountData, isFetching: isFetchingCandidatesCount } =
+		useGetJobPositionCandidatesCount(position.id);
+
 	const riskLevelColorClass = getJobPositionRiskLevelColorClass(
 		position.riskLevel
 	);
+
 	return (
-		<Card className="min-w-[300px]" shadow="sm">
+		<Card className="min-w-[340px]" shadow="sm">
 			<CardHeader className="flex gap-3">
 				<div className="flex gap-2 flex-row justify-start items-center w-full">
 					<Tooltip
@@ -79,10 +88,26 @@ const JobPositionCard: FC<Props> = ({ position, refetch }) => {
 				</div>
 			</CardBody>
 			<Divider />
-			<CardFooter className="flex flex-row gap-2 justify-between items-center">
-				<div className="text-sm text-foreground-500 flex flex-row gap-2">
-					<CalendarDays size={18} />
-					{format(position.createdAt, "dd-MM-yyyy")}
+			<CardFooter className="flex flex-row gap-2 justify-between items-end">
+				<div className="flex flex-col gap-1">
+					<div className="text-sm text-foreground-500 flex flex-row gap-2">
+						<CalendarDays size={18} />
+						{format(position.createdAt, "dd-MM-yyyy")}
+					</div>
+					{isFetchingCandidatesCount ? (
+						<div className="text-sm text-foreground-500 flex flex-row gap-2">
+							...
+						</div>
+					) : (
+						<div className="text-sm text-foreground-500 flex flex-row gap-2">
+							<CircleUserRound size={18} />
+							{translate("jobPositionCard.candidatesCount", {
+								replace: {
+									values: { count: candidatesCountData?.data ?? 0 },
+								},
+							})}
+						</div>
+					)}
 				</div>
 				<div className="flex gap-2 items-center">
 					<MagicIconButton

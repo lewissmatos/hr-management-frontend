@@ -163,5 +163,12 @@
 	"jobPositionInfoScreen": {
 		"title": "Información del puesto de trabajo",
 		"noCandidates": "No hay candidatos activos aplicando a este puesto"
+	},
+	"jobPositionCard": {
+		"candidatesCount": "{count} candidato(s) aplicando"
+	},
+	"candidateInformationScreen": {
+		"title": "Información del candidato",
+		"isEmployeeMessage": "Este candidato ya es empleado"
 	}
 }

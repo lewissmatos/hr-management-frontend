@@ -51,3 +51,13 @@ export const useToggleJobPositionAvailability = () => {
 		},
 	});
 };
+
+export const useGetJobPositionCandidatesCount = (id: number) => {
+	return {
+		...useQuery({
+			queryKey: ["get-job-positions-candidates-count", id],
+			queryFn: async () =>
+				(await axiosInstance.get(`job-positions/${id}/candidates-count`)).data,
+		}),
+	};
+};

@@ -61,7 +61,7 @@ const BasicInputEntityAdder: FC<Props> = ({ useAddEntity }) => {
 					await handleSave();
 				}}
 				isLoading={isPending}
-				color={isAdding ? "success" : "primary"}
+				color="primary"
 				className="w-3/12"
 				isDisabled={!inputValue && isAdding}
 				endContent={isAdding ? <Save /> : <PlusCircle />}

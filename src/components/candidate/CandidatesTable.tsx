@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { formatCurrency, formatList } from "../../utils/format.utils";
 import { format } from "date-fns";
 import { MagicIconButton, MagicTable } from "../ui";
-import { BriefcaseBusiness } from "lucide-react";
+import { BriefcaseBusiness, Eye } from "lucide-react";
 import { Tooltip } from "@heroui/react";
 
 type Props = {
@@ -148,7 +148,7 @@ const CandidatesTable = ({
 							navigate(`/job-position/${candidate.applyingJobPosition.id}`);
 						}}
 					>
-						{candidate.applyingJobPosition.name}
+						{candidate?.applyingJobPosition?.name}
 					</span>
 				),
 			},
@@ -213,13 +213,27 @@ const CandidatesTable = ({
 				selector: (candidate: Candidate) => (
 					<div className="flex gap-2">
 						<MagicIconButton
+							size="sm"
+							variant="flat"
+							onPress={() => {
+								navigate(`/candidate/${candidate.id}`);
+							}}
+							tooltipProps={{
+								content: translate("common.seeMoreInfo"),
+							}}
+						>
+							<Eye size={18} />
+						</MagicIconButton>
+						<MagicIconButton
 							tooltipProps={{
 								content: translate("candidateScreen.makeEmployee"),
 							}}
 							color="primary"
 							variant="solid"
 							size="sm"
-							isDisabled={candidate.isEmployee}
+							isDisabled={
+								candidate.isEmployee || !candidate.applyingJobPosition
+							}
 							onPress={() => {
 								setCandidateToMakeEmployee(candidate);
 								onOpenModalToMakeEmployee();

@@ -13,8 +13,7 @@ import {
 	useGetCandidatesByPosition,
 	useMakeCandidateEmployee,
 } from "../../features/service-hooks/useCandidateService";
-import { Info } from "lucide-react";
-import { useDisclosure } from "@heroui/react";
+import { Alert, useDisclosure } from "@heroui/react";
 import MakeCandidateEmployeeDialog from "../candidate/MakeCandidateEmployeeDialog";
 import { Candidate } from "../../types/app-types";
 
@@ -123,10 +122,10 @@ const JobPositionInfoScreen = () => {
 								/>
 							))
 						) : (
-							<div className="flex flex-fow gap-4 text-cyan-500 font-semibold text-xl">
-								<Info />
-								{translate("jobPositionInfoScreen.noCandidates")}
-							</div>
+							<Alert
+								color="warning"
+								title={translate("jobPositionInfoScreen.noCandidates")}
+							/>
 						)}
 					</div>
 				</div>

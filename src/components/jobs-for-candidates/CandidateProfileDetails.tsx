@@ -12,13 +12,13 @@ import { MagicInput } from "../ui";
 import {
 	BriefcaseBusiness,
 	CircleDollarSign,
-	Info,
 	PlusCircle,
 	Save,
 } from "lucide-react";
 import useApplyingCandidateStore from "../../features/store/applying-candidate-store";
 import { useLsmTranslation } from "react-lsm";
 import {
+	Alert,
 	Autocomplete,
 	AutocompleteItem,
 	Button,
@@ -138,11 +138,10 @@ const CandidateProfileDetails: FC<Props> = ({
 				...candidateData,
 				...data,
 			} as Candidate;
-			console.log(info);
 			const res = await onUpdateCandidate(info);
 			candidate = {
 				...candidate,
-				...res.data,
+				...res.data?.data,
 			};
 		} else {
 			const info = {
@@ -155,7 +154,7 @@ const CandidateProfileDetails: FC<Props> = ({
 			const res = await onAddCandidate(info);
 			candidate = {
 				...candidate,
-				...res.data,
+				...res.data?.data,
 			};
 		}
 		saveInfo(candidate as Candidate);
@@ -381,7 +380,9 @@ const CandidateProfileDetails: FC<Props> = ({
 									setValues={(values) => {
 										setValue("trainings", values);
 									}}
-									displayPropName="name"
+									displayCallback={(training) => {
+										return `${training.name} (${training.institution})`;
+									}}
 									labelKey="trainings"
 								/>
 							</div>
@@ -486,10 +487,10 @@ const CandidateProfileDetails: FC<Props> = ({
 					<div className="flex justify-end w-full">
 						{candidateData?.applyingJobPosition?.id ===
 						applyingJobPosition.id ? (
-							<div className="text-cyan-500 font-semibold text-xl gap-2 flex items-center">
-								<Info />
-								{translate("currentlyApplyingToThisPosition")}
-							</div>
+							<Alert
+								color="warning"
+								title={translate("currentlyApplyingToThisPosition")}
+							/>
 						) : (
 							<Button
 								variant="solid"
@@ -531,7 +532,8 @@ type CustomListboxProps<T> = {
 	queryProperties: string[];
 	candidate?: Candidate;
 	setValues: (values: T[]) => void;
-	displayPropName: string;
+	displayPropName?: string;
+	displayCallback?: (item: T) => string;
 	labelKey: string;
 };
 const CustomListbox = <T,>({
@@ -542,6 +544,7 @@ const CustomListbox = <T,>({
 	queryProperties,
 	setValues,
 	displayPropName,
+	displayCallback,
 	labelKey,
 }: CustomListboxProps<T & { id: number }>) => {
 	const { translate } = useLsmTranslation();
@@ -572,7 +575,13 @@ const CustomListbox = <T,>({
 				defaultSelectedKeys={defaultSelectedKeys.map(String)} // <-- Add this line
 			>
 				{data.map((x) => (
-					<ListboxItem key={String(x.id)}>{x[displayPropName]}</ListboxItem>
+					<ListboxItem
+						title={displayPropName ? x[displayPropName] : displayCallback?.(x)}
+						key={String(x.id)}
+						classNames={{
+							title: "text-sm",
+						}}
+					/>
 				))}
 			</Listbox>
 		</div>
@@ -608,11 +617,11 @@ const LoadCandidateDataWithPasswordModal = ({
 								)}
 							</p>
 							<PasswordInput
-								className="w-full"
 								isRequired
 								onChange={(e) => {
 									setPassword(e.target.value);
 								}}
+								className="w-full"
 							/>
 						</ModalBody>
 						<ModalFooter>

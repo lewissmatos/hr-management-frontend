@@ -22,7 +22,7 @@ const CandidateProfileDrawer: FC<Props> = ({ isOpen, onClose }) => {
 	const { hasCandidate, clearInfo } = useApplyingCandidateStore();
 
 	return (
-		<Drawer isOpen={isOpen} size="3xl" onClose={onClose} backdrop="blur">
+		<Drawer isOpen={isOpen} size="4xl" onClose={onClose} backdrop="blur">
 			<DrawerContent>
 				{(onClose) => (
 					<>

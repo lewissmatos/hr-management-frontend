@@ -94,6 +94,13 @@ const WorkExperienceModal = ({
 											: undefined
 									}
 								/>
+								<MagicInput
+									{...register("salary")}
+									label={translate("salary")}
+									className="w-full"
+									type="number"
+									defaultValue={editingWorkExperience?.position || ""}
+								/>
 								<div className="flex flex-row gap-2 mt-4 justify-between w-full">
 									<Button color="danger" variant="light" onPress={onClose}>
 										{translate("common.cancel")}
