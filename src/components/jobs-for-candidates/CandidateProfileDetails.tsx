@@ -73,7 +73,6 @@ const CandidateProfileDetails: FC<Props> = ({
 		CandidateProfileConfirmationStatuses.NO_MATTER
 	);
 	const [debouncedLanguageSearch, setDebouncedLanguageSearch] = useDebounce();
-
 	const { data: languagesData, isLoading: isFetchingLanguages } =
 		useGetLanguages({
 			name: debouncedLanguageSearch,
@@ -82,7 +81,6 @@ const CandidateProfileDetails: FC<Props> = ({
 
 	const [debouncedProficienciesSearch, setDebouncedProficienciesSearch] =
 		useDebounce();
-
 	const { data: proficienciesData, isLoading: isFetchingProficiencies } =
 		useGetProficiencies({
 			description: debouncedProficienciesSearch,

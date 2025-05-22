@@ -4,7 +4,7 @@ import { useGetEmployees } from "../../features/service-hooks/useEmployeeService
 import { MagicIconButton, MagicSelect, MagicTable } from "../ui";
 import NoDataScreen from "../ui/NoDataScreen";
 import { Departments, Employee } from "../../types/app-types";
-import { CircleDollarSign, Pencil, PlusCircle } from "lucide-react";
+import { CircleDollarSign, FileDown, Pencil, PlusCircle } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 import { formatCurrency } from "../../utils/format.utils";
@@ -12,9 +12,10 @@ import GenericSearchByQueryInput from "../common-filters/GenericSearchByQueryInp
 import GenericDateQuery from "../common-filters/GenericDateQuery";
 import useDebounce from "../../hooks/useDebounce";
 import { useMemo, useState } from "react";
-import { Button, SelectItem } from "@heroui/react";
+import { Button, SelectItem, useDisclosure } from "@heroui/react";
 import { useGetJobPositions } from "../../features/service-hooks/useJobPositionService";
 import LazyAutocompleteQuery from "../common-filters/LazyAutocompleteQuery";
+import ExportEmployeesExcelModal from "./ExportEmployeesExcelModal";
 
 const EmployeesScreen = () => {
 	const { translate } = useLsmTranslation();
@@ -118,115 +119,141 @@ const EmployeesScreen = () => {
 		[navigate]
 	);
 
+	const {
+		isOpen: isExportModalOpen,
+		onOpen: onExportModalOpen,
+		onClose: onExportModalClose,
+	} = useDisclosure();
+
 	return (
-		<ScreenWrapper
-			title={translate("employees")}
-			headerOptions={
-				<Button
-					variant="solid"
-					color="primary"
-					onPress={() => navigate("/employee")}
-					endContent={<PlusCircle />}
-				>
-					{translate("common.add")}
-				</Button>
-			}
-		>
-			<div className="flex flex-col gap-4">
-				<div className="flex flex-row gap-4">
-					<GenericSearchByQueryInput
-						properties={["cedula", "name"]}
-						isLoading={isFetching}
-						setQuery={(query) => {
-							setSearchInput(query);
-						}}
-					/>
-					<GenericDateQuery
-						paramName="startDate"
-						date={startDate}
-						setDebouncedDate={setDebouncedStartDate}
-						isLoading={isFetching}
-					/>
+		<>
+			{isExportModalOpen ? (
+				<ExportEmployeesExcelModal
+					isOpen={isExportModalOpen}
+					onClose={onExportModalClose}
+				/>
+			) : null}
+			<ScreenWrapper
+				title={translate("employees")}
+				headerOptions={
+					<div className="flex flex-row gap-2">
+						<Button
+							variant="solid"
+							color="success"
+							onPress={() => {
+								onExportModalOpen();
+							}}
+							endContent={<FileDown />}
+						>
+							{translate("common.exportExcel")}
+						</Button>
+						<Button
+							variant="solid"
+							color="primary"
+							onPress={() => navigate("/employee")}
+							endContent={<PlusCircle />}
+						>
+							{translate("common.add")}
+						</Button>
+					</div>
+				}
+			>
+				<div className="flex flex-col gap-4">
+					<div className="flex flex-row gap-4">
+						<GenericSearchByQueryInput
+							properties={["cedula", "name"]}
+							isLoading={isFetching}
+							setQuery={(query) => {
+								setSearchInput(query);
+							}}
+						/>
+						<GenericDateQuery
+							paramName="startDate"
+							date={startDate}
+							setDebouncedDate={setDebouncedStartDate}
+							isLoading={isFetching}
+						/>
 
-					<GenericDateQuery
-						paramName="endDate"
-						date={endDate}
-						setDebouncedDate={setDebouncedEndDate}
-						isLoading={isFetching}
-					/>
-					<GenericSearchByQueryInput
-						properties={["salary"]}
-						isLoading={isFetching}
-						inputType="number"
-						className="w-1/6"
-						startContent={
-							<CircleDollarSign className="text-primary-500" size={18} />
-						}
-						setQuery={(query) => {
-							setStartSalaryInput(query);
-						}}
-						overrideLabel={translate("startSalary")}
-					/>
-					<GenericSearchByQueryInput
-						properties={["salary"]}
-						isLoading={isFetching}
-						inputType="number"
-						className="w-1/6"
-						startContent={
-							<CircleDollarSign className="text-primary-500" size={18} />
-						}
-						setQuery={(query) => {
-							setEndSalaryInput(query);
-						}}
-						overrideLabel={translate("endSalary")}
-					/>
-					<LazyAutocompleteQuery
-						key="job-position-name"
-						setSelectedValue={(val) => {
-							if (!val) return;
-							setOtherFilters((prev) => ({
-								...prev,
-								jobPosition: val,
-							}));
-						}}
-						displayPropName="name"
-						labelKey="jobPosition"
-						className="w-1/6"
-						useQueryHook={useGetJobPositions as any}
-					/>
-					<MagicSelect
-						label={translate("department")}
-						onSelectionChange={(selectedKeys) => {
-							if (!selectedKeys) return;
-							setOtherFilters((prev) => ({
-								...prev,
-								department: selectedKeys[0],
-							}));
-						}}
-						className="w-1/6"
-					>
-						{Object.values(Departments).map((department) => (
-							<SelectItem key={department}>{department}</SelectItem>
-						))}
-					</MagicSelect>
+						<GenericDateQuery
+							paramName="endDate"
+							date={endDate}
+							setDebouncedDate={setDebouncedEndDate}
+							isLoading={isFetching}
+						/>
+						<GenericSearchByQueryInput
+							properties={["salary"]}
+							isLoading={isFetching}
+							inputType="number"
+							className="w-1/6"
+							startContent={
+								<CircleDollarSign className="text-primary-500" size={18} />
+							}
+							setQuery={(query) => {
+								setStartSalaryInput(query);
+							}}
+							overrideLabel={translate("startSalary")}
+						/>
+						<GenericSearchByQueryInput
+							properties={["salary"]}
+							isLoading={isFetching}
+							inputType="number"
+							className="w-1/6"
+							startContent={
+								<CircleDollarSign className="text-primary-500" size={18} />
+							}
+							setQuery={(query) => {
+								setEndSalaryInput(query);
+							}}
+							overrideLabel={translate("endSalary")}
+						/>
+						<LazyAutocompleteQuery
+							key="job-position-name"
+							setSelectedValue={(val) => {
+								if (!val) return;
+								setOtherFilters((prev) => ({
+									...prev,
+									jobPosition: val,
+								}));
+							}}
+							displayPropName="name"
+							labelKey="jobPosition"
+							className="w-1/6"
+							useQueryHook={useGetJobPositions as any}
+						/>
+						<MagicSelect
+							label={translate("department")}
+							onSelectionChange={(selectedKeys) => {
+								if (!selectedKeys) return;
+								setOtherFilters((prev) => ({
+									...prev,
+									department: selectedKeys[0],
+								}));
+							}}
+							className="w-1/6"
+						>
+							{Object.values(Departments).map((department) => (
+								<SelectItem key={department}>{department}</SelectItem>
+							))}
+						</MagicSelect>
+					</div>
+
+					{list?.length ? (
+						<MagicTable<Employee>
+							columns={columns as any}
+							data={list as []}
+							selectionMode="none"
+							isStriped
+						/>
+					) : (
+						<NoDataScreen
+							isFetching={isFetching}
+							redirectPath="/employee"
+							elementName="employee"
+						/>
+					)}
 				</div>
-
-				{list?.length ? (
-					<MagicTable<Employee>
-						columns={columns as any}
-						data={list as []}
-						selectionMode="none"
-						isStriped
-					/>
-				) : (
-					<NoDataScreen
-						isFetching={isFetching}
-						redirectPath="/employee"
-						elementName="employee"
-					/>
-				)}
-			</div>
-		</ScreenWrapper>
+			</ScreenWrapper>
+		</>
 	);
 };
 

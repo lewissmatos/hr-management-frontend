@@ -2,6 +2,9 @@
 	"APP_NAME": "GES-HR",
 	"DEVELOPED_BY": "Desarrollado por Lewis Matos",
 	"common": {
+		"submit": "Enviar",
+		"reset": "Reiniciar",
+		"exportExcel": "Exportar a Excel",
 		"apply": "Aplicar",
 		"searchBy": "Buscar por {field}",
 		"yes": "Sí",
@@ -29,7 +32,8 @@
 		"confirm": "Confirmar",
 		"seeMoreInfo": "Click para ver más información",
 		"maxLengthExceeded": "El número máximo de caracteres permitidos es {maxLength}",
-		"andQuantityMore": "y {quantity} más"
+		"andQuantityMore": "y {quantity} más",
+		"downloadExcel": "Descargar Excel"
 	},
 	"workExperience": "Experiencia laboral",
 	"workExperiences": "Experiencias laborales",

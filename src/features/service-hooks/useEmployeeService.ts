@@ -2,6 +2,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import getQueryClient from "./tanstackQueryClient";
 import { serviceGenerator } from "../services/services-generator";
 import { Employee } from "../../types/app-types";
+import axiosInstance from "../services/axios-instance";
 const {
 	onGet: onGetEmployees,
 	onGetSingle: onGetEmployee,
@@ -27,6 +28,26 @@ export const useGetEmployees = (filters?: Record<string, any>) => {
 			queryFn: () => onGetEmployees(filters),
 		}),
 		filters,
+	};
+};
+export const useGetEmployeesToExport = ({
+	startDate,
+	endDate,
+}: {
+	startDate: string;
+	endDate: string;
+}) => {
+	return {
+		...useQuery({
+			queryKey: ["get-employees", startDate, endDate],
+			queryFn: async () => {
+				const res = await axiosInstance.get(
+					`/employees/export?startDate=${startDate}&endDate=${endDate}`
+				);
+				return res.data;
+			},
+			enabled: Boolean(startDate && endDate),
+		}),
 	};
 };
 
